@@ -4,7 +4,7 @@ _ _ pycache _ _
 .idea 
 /static/
 STATIC_ROOT
-/ckeditor
+/ckeditor/
 
 
 ### Django ###

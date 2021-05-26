@@ -3,6 +3,8 @@ db.sqlite3
 _ _ pycache _ _ 
 .idea 
 /static/
+STATIC_ROOT
+/ckeditor/
 
 
 ### Django ###

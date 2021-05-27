@@ -19,6 +19,7 @@ admin.site.register(FlatPage, FlatPageCustom)
 
 
 class CategoryAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title",)}
     class Meta:
         model = Category
 

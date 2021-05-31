@@ -1,46 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# from django.utils.text import slugify
-# import random
-# import string
-
-# def random_string_generator(size=10, chars=string.ascii_lowercase + string.digits):
-#     return ''.join(random.choice(chars) for _ in range(size))
-
 
 class Category(models.Model):
+    """Model for create categories of Ads"""
+    
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, verbose_name='Идентификатор')
 
     def __str__(self):
         return 'Category: %s' % self.title
-    
-    # def unique_slug_generator(instance, new_slug=None):
-    #     """
-    #     This is for a Django project and it assumes your instance 
-    #     has a model with a slug field and a title character (char) field.
-    #     """
-    #     if new_slug is not None:
-    #         slug = new_slug
-    #     else:
-    #         slug = slugify(instance.title)
-
-    #     Klass = instance.__class__
-    #     qs_exists = Klass.objects.filter(slug=slug).exists()
-    #     if qs_exists:
-    #         new_slug = "{slug}-{randstr}".format(
-    #                     slug=slug,
-    #                     randstr=random_string_generator(size=4)
-    #                 )
-    #         return unique_slug_generator(instance, new_slug=new_slug)
-    #     return slug
-
-    
+        
 class Ad(models.Model):
+    """Model for create Ads"""
+    
     title = models.CharField(max_length=200)
     description = models.TextField()
-    price = models.PositiveIntegerField(default=1)
+    price = models.PositiveIntegerField(blank=True, null=True)
     
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE, default=None)
     
@@ -52,13 +28,16 @@ class Ad(models.Model):
 
 
 class AdArchive(Ad):
-    
+    """Proxy Model for archive and ordering Ads"""
+        
     class Meta:
         proxy = True
         ordering = ["created_date"]
         
 
 class Tag(models.Model):
+    """Model for create Tags of Ads"""
+    
     title = models.CharField(max_length=200)
     
     def __str__(self):
@@ -66,17 +45,22 @@ class Tag(models.Model):
 
 
 class Seller(User):
+    """Model of our Seller (users)"""
     name = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, default=None, related_name = "Seller")
     
     def __str__(self):
         return 'Seller: %s' % self.title
     
     def nmd_of_ads():
+        """Method for counting Ads for this Seller"""
+        
         nmb_ad = Ad.objects.count()
         return nmb_ad
     
 
 class BaseAd(models.Model):
+    """Base (Superclass) Model for different type of Ads """
+    
     title = models.CharField(max_length=100)
     description = models.TextField()
     price = models.PositiveIntegerField(default=1)
@@ -87,6 +71,8 @@ class BaseAd(models.Model):
 
 
 class Stuff(BaseAd):
+    """Model for Ads with Stuff"""
+    
     is_new = models.BooleanField(default=True)
     
     def __str__(self):
@@ -94,11 +80,15 @@ class Stuff(BaseAd):
 
 
 class TypeFuel(models.Model):
+    """Model for creating diferent type of Fuel for Model - Car"""
+    
     type_fuel = models.CharField(max_length=24, blank=True, null=True, default=None)
     def __str__(self):
         return 'TypeFuel: %s' % self.type_fuel
        
 class Car(BaseAd):
+    """Model for Ads with Cars"""
+    
     engine_volume = models.DecimalField(max_digits=5, decimal_places=3, default=0)
     type_fuel = models.ForeignKey(TypeFuel, on_delete=models.CASCADE)
     
@@ -107,6 +97,8 @@ class Car(BaseAd):
     
     
 class Services(BaseAd):
+    """Model for Ads with services"""
+    
     duration = models.DateTimeField()
     def __str__(self):
         return 'Car: %s' % self.title

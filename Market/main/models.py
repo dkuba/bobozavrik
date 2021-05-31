@@ -10,7 +10,8 @@ class Category(models.Model):
 
     def __str__(self):
         return 'Category: %s' % self.title
-        
+    
+    
 class Ad(models.Model):
     """Model for create Ads"""
     

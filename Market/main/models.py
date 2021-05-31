@@ -5,8 +5,8 @@ from django.utils.text import slugify
 import random
 import string
 
-def random_string_generator(size=10, chars=string.ascii_lowercase + string.digits):
-    return ''.join(random.choice(chars) for _ in range(size))
+# def random_string_generator(size=10, chars=string.ascii_lowercase + string.digits):
+#     return ''.join(random.choice(chars) for _ in range(size))
 
 
 class Category(models.Model):
@@ -65,7 +65,6 @@ class Seller(models.Model):
         return 'Ad: %s' % self.title
     
     def nmd_of_ads():
-        ad = Ad.objects.all()
-        nmb_ad = len(list(ad))
+        nmb_ad = Ad.objects.count()
         return nmb_ad
 

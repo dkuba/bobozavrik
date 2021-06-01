@@ -1,4 +1,6 @@
+{% load blog_tags %}
 {% load static %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +26,12 @@
             {% block content %}
             {% endblock %}       
         </div>
-        
+        <div>
+            <!-- add current time Tag (my custom Tag) -->
+            Test current time {% current_time %}
+        </div>  
+         
+
     </div>
     
     <div class="my_footer">

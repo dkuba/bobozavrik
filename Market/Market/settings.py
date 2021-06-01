@@ -142,4 +142,4 @@ SITE_ID = 1
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 
-MAINTENANCE_MODE = True
+MAINTENANCE_MODE = False

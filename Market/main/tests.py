@@ -15,6 +15,7 @@ class AdTestCases(TestCase):
         self.ad = Ad.objects.create(title='create new Ad', description='tests.py "create"', category =self.categoryT)        
         self.all_Ad = Ad.objects.all()        
         self.g = Ad.objects.get(title='create new Ad')        
-        self.test_filter = Ad.objects.filter(category = '1')       
+        self.test_filter = Ad.objects.filter(category = '1')
         self.b = Ad(title='New Ad', description='tests.py "save" ')
         self.b.save()
+

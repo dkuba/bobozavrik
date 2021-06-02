@@ -15,11 +15,6 @@ def current_time():
     now = datetime.datetime.utcnow().replace(tzinfo=utc)
     return now
 
-@register.simple_tag
-def user_name(request):
-    user_name = request.user.username
-    return user_name
-
 
 @register.filter
 @stringfilter

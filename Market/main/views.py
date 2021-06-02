@@ -8,6 +8,9 @@ from django.views.generic import (
     DetailView,
 )
 
+class My_class:
+    paginate_by = 2 
+    
 
 def home(request):
     nmb_ad = Seller.nmd_of_ads()
@@ -20,7 +23,7 @@ def home(request):
     })
     
     
-class CarsList(ListView):
+class CarsList(My_class, ListView):
     queryset = Car.objects.all()
     template_name = 'main/cars_list.html'
     
@@ -29,7 +32,8 @@ class CarDetailView(DetailView):
     template_name = 'main/car_detail.html'
 
 
-class ServicesList(ListView):
+class ServicesList(My_class, ListView):
+    
     queryset = Services.objects.all()
     template_name = 'main/services_list.html'
     
@@ -38,7 +42,7 @@ class ServicesDetailView(DetailView):
     template_name = 'main/services_detail.html'
     
 
-class StuffList(ListView):
+class StuffList(My_class, ListView):
     queryset = Stuff.objects.all()
     template_name = 'main/stuff_list.html'
     

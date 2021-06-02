@@ -19,19 +19,62 @@
     <div>
         {% include 'main/header.html' %}
     </div>
-    <div class="wrapper">
-        <div>
-            <!-- add current time Tag (my custom Tag) -->
-            Test current time {% current_time %}
-        </div>  
-        <div class="wrapper_content">
-                <!-- navbar -->
-            {% include 'main/navbar.html' %} 
-            {% block content %}
-            {% endblock %}       
+    <div class="container">
+        <div class="col-lg-12">
+            <div>
+                <!-- add current time Tag (my custom Tag) -->
+                Test current time {% current_time %}
+            </div>  
+            <div class="wrapper_content">
+                    <!-- navbar -->
+                {% include 'main/navbar.html' %} 
+                {% block content %}
+                {% endblock %}       
+            </div>
+            <!-- nav paginator -->
+            {% if page_obj.has_other_pages %}
+            <div>                
+                <nav aria-label="...">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        
+                        {% for my_page in paginator.page_range %}
+                            
+                            {% if page_obj.number == my_page %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="#">{{my_page}}</a>
+                                </li>
+                            {% elif my_page >= page_obj.number|add:-2 and my_page <= page_obj.number|add:2 %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{my_page}}">{{my_page}}</a>
+                                </li>
+                            {% endif %}
+                            
+                        {% endfor %}
+                        
+                        {% if page_obj.has_next %}
+                                <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                                </li>
+                        {% endif %}
+                        
+                    </ul>
+                </nav>                
+            </div>
+            {% endif %}            
         </div>
-    </div>
-    
+
+        </div>    
     <div class="my_footer">
         {% include 'main/footer.html' %}
     </div>

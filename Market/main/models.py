@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -10,31 +11,7 @@ class Category(models.Model):
 
     def __str__(self):
         return 'Category: %s' % self.title
-    
-    
-class Ad(models.Model):
-    """Model for create Ads"""
-    
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    price = models.PositiveIntegerField(blank=True, null=True)
-    
-    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE, default=None)
-    
-    created_date = models.DateTimeField(auto_now_add=True, auto_now=False) 
-    updated_date = models.DateTimeField(auto_now_add=False, auto_now=True) 
-    
-    def __str__(self):
-        return 'Ad: %s' % self.title
-
-
-class AdArchive(Ad):
-    """Proxy Model for archive and ordering Ads"""
-        
-    class Meta:
-        proxy = True
-        ordering = ["created_date"]
-        
+            
 
 class Tag(models.Model):
     """Model for create Tags of Ads"""
@@ -50,14 +27,15 @@ class Seller(User):
     name = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, default=None, related_name = "Seller")
     
     def __str__(self):
-        return 'Seller: %s' % self.title
+        return 'Seller: %s' % self.username
     
     def nmd_of_ads():
         """Method for counting Ads for this Seller"""
-        
-        nmb_ad = Ad.objects.count()
-        return nmb_ad
     
+        ads = Car.objects.count() + Stuff.objects.count() + Services.objects.count()
+        return ads
+
+
 
 class BaseAd(models.Model):
     """Base (Superclass) Model for different type of Ads """
@@ -66,7 +44,14 @@ class BaseAd(models.Model):
     description = models.TextField()
     price = models.PositiveIntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)
-
+    
+    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE, default=None)
+    
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE, verbose_name="продавец", related_name="%(app_label)s_%(class)s_sellers_ads", null=True)
+    
+    created_date = models.DateTimeField(auto_now_add=True, auto_now=False) 
+    updated_date = models.DateTimeField(auto_now_add=False, auto_now=True) 
+    
     class Meta:
         abstract = True
 
@@ -78,6 +63,9 @@ class Stuff(BaseAd):
     
     def __str__(self):
         return 'Stuff: %s' % self.title
+    
+    def get_absolute_url(self):
+        return reverse('stuff-detail', kwargs={'pk':self.pk})
 
 
 class TypeFuel(models.Model):
@@ -96,6 +84,9 @@ class Car(BaseAd):
     def __str__(self):
         return 'Car: %s' % self.title
     
+    def get_absolute_url(self):
+        return reverse('car-detail', kwargs={'pk':self.pk})
+    
     
 class Services(BaseAd):
     """Model for Ads with services"""
@@ -104,7 +95,16 @@ class Services(BaseAd):
     def __str__(self):
         return 'Car: %s' % self.title
     
+    def get_absolute_url(self):
+        return reverse('services-detail', kwargs={'pk':self.pk})
     
+
+class AdArchive(Services):
+    """Proxy Model for archive and ordering Services Ads"""
+        
+    class Meta:
+        proxy = True
+        ordering = ["created_date"]
 
     
 

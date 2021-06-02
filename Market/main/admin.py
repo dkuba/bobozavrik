@@ -23,11 +23,6 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 
 
-class AdAdmin(admin.ModelAdmin):
-    class Meta:
-        model = Ad
-admin.site.register(Ad, AdAdmin)
-
 class AdArchiveAdmin(admin.ModelAdmin):
     class Meta:
         model = AdArchive
@@ -71,3 +66,4 @@ class ServicesAdmin(admin.ModelAdmin):
     class Meta:
         model = Services
 admin.site.register(Services, ServicesAdmin)
+

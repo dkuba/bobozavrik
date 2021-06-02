@@ -7,7 +7,6 @@ from django.utils.timezone import utc
 
 register = template.Library()
 
-from ..models import Ad
 
 @register.simple_tag
 def current_time():

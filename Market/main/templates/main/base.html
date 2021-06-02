@@ -20,18 +20,16 @@
         {% include 'main/header.html' %}
     </div>
     <div class="wrapper">
+        <div>
+            <!-- add current time Tag (my custom Tag) -->
+            Test current time {% current_time %}
+        </div>  
         <div class="wrapper_content">
                 <!-- navbar -->
             {% include 'main/navbar.html' %} 
             {% block content %}
             {% endblock %}       
         </div>
-        <div>
-            <!-- add current time Tag (my custom Tag) -->
-            Test current time {% current_time %}
-        </div>  
-         
-
     </div>
     
     <div class="my_footer">

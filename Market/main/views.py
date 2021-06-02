@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import *
 from django.conf import settings 
+from django.contrib.auth.models import User
 
 from django.views.generic import (
     ListView,
@@ -15,7 +16,7 @@ def home(request):
     return render(request, 'main/index.html' , {
     'nmb_ad': nmb_ad,
     'turn_on_block': turn_on_block,
-    'name_seller' : name_seller 
+    'name_seller' : name_seller, 
     })
     
     

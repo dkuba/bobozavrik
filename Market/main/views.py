@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from .models import *
 from django.conf import settings 
 from django.contrib.auth.models import User
@@ -9,9 +9,16 @@ from django.views.generic import (
 )
 
 class My_class:
-    paginate_by = 2 
+    paginate_by = 10
     
-
+    def get_queryset(self):
+        tag = self.request.GET.get('tag')
+        if not tag:
+            return self.model.objects.all()
+        tag_obj = get_object_or_404(Tag, title=tag)
+        return self.model.objects.filter(tag=tag_obj)
+    
+    
 def home(request):
     nmb_ad = Seller.nmd_of_ads()
     turn_on_block = settings.MAINTENANCE_MODE
@@ -21,21 +28,57 @@ def home(request):
     'turn_on_block': turn_on_block,
     'name_seller' : name_seller, 
     })
+
     
-    
-class CarsList(My_class, ListView):
-    queryset = Car.objects.all()
+class CarsList(My_class, ListView ):
+    model = Car
     template_name = 'main/cars_list.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs = super(CarsList, self).get_context_data(**kwargs)
+        unique_tags = set()
+        tag_list = Tag.objects.all()
+        model_list = self.model.objects.all()
+        for tag in tag_list:
+            for obj in model_list:
+                if tag in obj.tag.all():
+                    unique_tags.add(tag)                 
+        kwargs.update({
+            'unique_tags': unique_tags,
+            'model': self.model,
+        })
+        return kwargs 
+    
+
+    
+
     
 class CarDetailView(DetailView):
     model = Car
     template_name = 'main/car_detail.html'
 
 
-class ServicesList(My_class, ListView):
-    
-    queryset = Services.objects.all()
+class ServicesList(My_class, ListView): 
+    model = Services
     template_name = 'main/services_list.html'
+    
+    def get_context_data(self, **kwargs):
+        kwargs = super(ServicesList, self).get_context_data(**kwargs)
+        unique_tags = set()
+        tag_list = Tag.objects.all()
+        model_list = self.model.objects.all()
+        for tag in tag_list:
+            for obj in model_list:
+                if tag in obj.tag.all():
+                    unique_tags.add(tag)                 
+        kwargs.update({
+            'unique_tags': unique_tags,
+            'model': self.model,
+        })
+        return kwargs 
+    
+    
+    
     
 class ServicesDetailView(DetailView):
     model = Services
@@ -43,9 +86,28 @@ class ServicesDetailView(DetailView):
     
 
 class StuffList(My_class, ListView):
-    queryset = Stuff.objects.all()
+    model = Stuff
     template_name = 'main/stuff_list.html'
+    
+    def get_context_data(self, **kwargs):
+        kwargs = super(StuffList, self).get_context_data(**kwargs)
+        unique_tags = set()
+        tag_list = Tag.objects.all()
+        model_list = self.model.objects.all()
+        for tag in tag_list:
+            for obj in model_list:
+                if tag in obj.tag.all():
+                    unique_tags.add(tag)                 
+        kwargs.update({
+            'unique_tags': unique_tags,
+            'model': self.model,
+        })
+        return kwargs 
+    
+
     
 class StuffDetailView(DetailView):
     model = Stuff
     template_name = 'main/stuff_detail.html'
+    
+       

@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+
+        <!-- List with Ads  -->
+        <div class="col-md-8 col-xs-12 main">            
+            <div class="list-group">
+                {% for obj in object_list %}
+                    <a href="{{ obj.get_absolute_url }}" class="list-group-item list-group-item-action">{{ obj.title }} </a>               
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Tags list  -->
+        <div class="col-md-4 col-xs-12 sidebar">        
+            <div class="list-group">
+                {% for tag in unique_tags %}
+                        <a href="?tag={{ tag.title }}" class="list-group-item list-group-item-action">{{ tag.title }} </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

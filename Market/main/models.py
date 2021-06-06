@@ -8,7 +8,7 @@ class Category(models.Model):
     
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, verbose_name='Идентификатор')
-
+    
     def __str__(self):
         return 'Category: %s' % self.title
             
@@ -49,6 +49,8 @@ class BaseAd(models.Model):
     
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE, verbose_name="продавец", related_name="%(app_label)s_%(class)s_sellers_ads", null=True)
     
+    tag = models.ManyToManyField(Tag, blank=True, related_name="%(app_label)s_%(class)s_ads")
+        
     created_date = models.DateTimeField(auto_now_add=True, auto_now=False) 
     updated_date = models.DateTimeField(auto_now_add=False, auto_now=True) 
     

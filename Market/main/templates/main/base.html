@@ -17,7 +17,7 @@
 </head>
 <body>
     <div>
-        {% include 'main/header.html' %}
+        {% include 'main/include/header.html' %}
     </div>
     <div class="container">
         <div class="col-lg-12">
@@ -26,11 +26,12 @@
                 Test current time {% current_time %}
             </div>  
             <div class="wrapper_content">
-                    <!-- navbar -->
-                {% include 'main/navbar.html' %} 
+                    <!-- NavBar -->
+                {% include 'main/include/navbar.html' %} 
                 {% block content %}
                 {% endblock %}       
             </div>
+            
             <!-- nav paginator -->
             {% if page_obj.has_other_pages %}
             <div>                
@@ -58,7 +59,7 @@
                             {% endif %}
                             
                         {% endfor %}
-                        
+
                         {% if page_obj.has_next %}
                                 <li class="page-item">
                                 <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
@@ -74,9 +75,10 @@
             {% endif %}            
         </div>
 
-        </div>    
+        </div> 
+        <!-- Footer    -->
     <div class="my_footer">
-        {% include 'main/footer.html' %}
+        {% include 'main/include/footer.html' %}
     </div>
 
     <!-- Optional JavaScript -->

@@ -9,6 +9,7 @@ urlpatterns = [
     path('contacts/', views.flatpage, {'url': '/contacts/'}, name='contacts'),
     
     path('cars/', CarsList.as_view(), name='cars'),
+    
     path('cars/<int:pk>/', CarDetailView.as_view(), name='car-detail'),
     
     path('services/', ServicesList.as_view(), name='services'),

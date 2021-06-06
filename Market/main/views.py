@@ -74,6 +74,17 @@ class CarDetailView(DetailView):
     template_name = 'main/car_detail.html'
 
 
+class CarAddView(CreateView):
+    model = Car
+    fields = '__all__'
+    template_name = 'main/car_add.html'
+    
+class CarEditView(UpdateView):
+    model = Car
+    fields = '__all__'
+    template_name = 'main/car_edit.html'
+    
+
 class ServicesList(My_class, ListView): 
     model = Services
     template_name = 'main/services_list.html'
@@ -125,5 +136,4 @@ class StuffList(My_class, ListView):
 class StuffDetailView(DetailView):
     model = Stuff
     template_name = 'main/stuff_detail.html'
-    
-       
+

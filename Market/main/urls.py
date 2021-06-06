@@ -10,6 +10,9 @@ urlpatterns = [
     path('about/', views.flatpage, {'url': '/about/'}, name='about'),
     path('contacts/', views.flatpage, {'url': '/contacts/'}, name='contacts'),
     
+    path('cars/add/', CarAddView.as_view(), name='cars-add'),
+    path('cars/<int:pk>/edit/', CarEditView.as_view(), name='cars-update'),
+    
     path('accounts/profile/<int:pk>/', ProfileUpdateView.as_view(), name='profile-update'), 
     
     path('cars/', CarsList.as_view(), name='cars'),    

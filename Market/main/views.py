@@ -1,12 +1,30 @@
 from django.shortcuts import get_object_or_404, render
 from .models import *
 from django.conf import settings 
-from django.contrib.auth.models import User
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.contrib.auth.forms import UserCreationForm
 
 from django.views.generic import (
     ListView,
     DetailView,
+    UpdateView,
+    CreateView
 )
+
+
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = Profile
+    fields = ["first_name", "last_name", "birthday", "email"]
+    template_name = 'main/profile_update.html'
+    
+
+class MyRegisterView(CreateView):
+    template_name = "main/register_user.html"
+    form_class = UserCreationForm
+    success_url = '/'
+    
 
 class My_class:
     paginate_by = 10
@@ -48,8 +66,6 @@ class CarsList(My_class, ListView ):
             'model': self.model,
         })
         return kwargs 
-    
-
     
 
     

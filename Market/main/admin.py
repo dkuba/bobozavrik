@@ -1,12 +1,9 @@
 from django.contrib import admin
-
 from django.contrib.flatpages.models import FlatPage
 from django.contrib.flatpages.admin import FlatPageAdmin
-
 from django.db import models
-
 from ckeditor.widgets import CKEditorWidget
-
+from django.contrib.auth.models import User
 from .models import *
 
 
@@ -16,6 +13,15 @@ class FlatPageCustom(FlatPageAdmin):
 admin.site.register(FlatPage, FlatPageCustom)
 
 
+# Ad user-id in admin
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('id', 'email', 'username',)
+    list_display_links = ('id', 'email', 'username',)
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
+
+
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
     class Meta:
@@ -23,47 +29,14 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 
 
-class AdArchiveAdmin(admin.ModelAdmin):
-    class Meta:
-        model = AdArchive
-admin.site.register(AdArchive, AdArchiveAdmin)
+admin.site.register(AdArchive)
+admin.site.register(Tag)
+admin.site.register(Seller)
+admin.site.register(Stuff)
+admin.site.register(TypeFuel)
+admin.site.register(Car)
+admin.site.register(Services)
 
+admin.site.register(Profile)
 
-
-
-class TagAdmin(admin.ModelAdmin):
-    class Meta:
-        model = Tag
-admin.site.register(Tag, TagAdmin)
-
-
-class SellerAdmin(admin.ModelAdmin):
-    class Meta:
-        model = Seller
-admin.site.register(Seller, SellerAdmin)
-
-
-
-class StuffAdmin(admin.ModelAdmin):
-    class Meta:
-        model = Stuff
-admin.site.register(Stuff, StuffAdmin)
-
-
-class TypeFuelAdmin(admin.ModelAdmin):
-    class Meta:
-        model = TypeFuel
-admin.site.register(TypeFuel, TypeFuelAdmin)
-
-
-class CarAdmin(admin.ModelAdmin):
-    class Meta:
-        model = Car
-admin.site.register(Car, CarAdmin)
-
-
-class ServicesAdmin(admin.ModelAdmin):
-    class Meta:
-        model = Services
-admin.site.register(Services, ServicesAdmin)
 

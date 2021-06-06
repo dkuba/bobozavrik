@@ -21,19 +21,32 @@ class Tag(models.Model):
     def __str__(self):
         return 'Tag: %s' % self.title
 
+class Profile(User):
+    """Model of Profile (for registration new user)"""
+    birthday = models.DateField(max_length=8)
+    
+    def get_absolute_url(self):
+        return reverse('profile-update', kwargs={'pk':self.pk})
+
 
 class Seller(User):
     """Model of our Seller (users)"""
-    name = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, default=None, related_name = "Seller")
+    # name = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, default=None, related_name = "Seller")
+    class Meta:
+        ordering = ('first_name',)
+        verbose_name = "Seller"
+        verbose_name_plural = "Sellers"
     
     def __str__(self):
-        return 'Seller: %s' % self.username
+        return 'Seller1: %s' % self.username
     
     def nmd_of_ads():
         """Method for counting Ads for this Seller"""
     
         ads = Car.objects.count() + Stuff.objects.count() + Services.objects.count()
         return ads
+    
+
 
 
 

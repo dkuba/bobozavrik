@@ -1,8 +1,13 @@
 {% load static %}
+{% load thumbnail %}
 
 <nav class="navbar navbar-light bg-light">
+
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
+      {% thumbnail  user.profile.img "50x50" crop="center" as im %}
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+      {% endthumbnail %}
       <img src="{% static 'admin/img/img_html/linux.png' %}" alt="" width="30" height="24" class="d-inline-block align-text-top">
       User name:  {{user.username }} 
     </a>

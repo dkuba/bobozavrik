@@ -16,7 +16,7 @@ from django.views.generic import (
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = Profile
-    fields = ["first_name", "last_name", "birthday", "email"]
+    fields = ["first_name", "last_name", "birthday", "email", 'img']
     template_name = 'main/profile_update.html'
     
 
@@ -38,6 +38,7 @@ class My_class:
     
     
 def home(request):
+    profile = Profile.objects.get(id = 5 )
     nmb_ad = Seller.nmd_of_ads()
     turn_on_block = settings.MAINTENANCE_MODE
     name_seller = Seller.objects.name
@@ -45,6 +46,7 @@ def home(request):
     'nmb_ad': nmb_ad,
     'turn_on_block': turn_on_block,
     'name_seller' : name_seller, 
+    'profile': profile
     })
 
     

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from sorl.thumbnail import ImageField
 
 
 class Category(models.Model):
@@ -24,10 +25,11 @@ class Tag(models.Model):
 class Profile(User):
     """Model of Profile (for registration new user)"""
     birthday = models.DateField(max_length=8)
+    img = ImageField(upload_to='img_html', blank=True, default='img_html/default.jpg')
     
     def get_absolute_url(self):
         return reverse('profile-update', kwargs={'pk':self.pk})
-
+    
 
 class Seller(User):
     """Model of our Seller (users)"""
@@ -46,9 +48,6 @@ class Seller(User):
         ads = Car.objects.count() + Stuff.objects.count() + Services.objects.count()
         return ads
     
-
-
-
 
 class BaseAd(models.Model):
     """Base (Superclass) Model for different type of Ads """
@@ -101,6 +100,11 @@ class Car(BaseAd):
     
     def get_absolute_url(self):
         return reverse('car-detail', kwargs={'pk':self.pk})
+    
+class Picture(models.Model):
+    """Model for picture (for Car)"""
+    img = ImageField(upload_to='img_html', blank=True, default='img_html/default.jpg')
+    car = models.ForeignKey(Car, blank=True, null=True, on_delete=models.CASCADE, default=None)
     
     
 class Services(BaseAd):

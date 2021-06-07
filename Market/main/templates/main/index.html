@@ -3,6 +3,8 @@
 {% load blog_tags %}
 {% block content %}
 
+{% load thumbnail %}
+
     {% if turn_on_block %}
         <div class= "content-blocker_on_all_page" >
             <h2 class= "content_center">На сайте проводятся технические работы</h2>
@@ -10,6 +12,8 @@
     {% else  %} 
           <!-- add numder of Ads -->
         <h2> Dest number of Ads {{ nmb_ad }} </h2>
+
+
 
         <div>
             <!-- add current my custom Filter -->

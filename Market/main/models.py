@@ -61,7 +61,7 @@ class BaseAd(models.Model):
     
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE, verbose_name="продавец", related_name="%(app_label)s_%(class)s_sellers_ads", null=True)
     
-    tag = models.ManyToManyField(Tag, blank=True, related_name="%(app_label)s_%(class)s_ads")
+    tag = models.ManyToManyField(Tag, blank=True, related_name="%(app_label)s_%(class)s_ads", related_query_name="%(app_label)s_%(class)ss",)
         
     created_date = models.DateTimeField(auto_now_add=True, auto_now=False) 
     updated_date = models.DateTimeField(auto_now_add=False, auto_now=True) 

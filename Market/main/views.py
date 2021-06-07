@@ -27,9 +27,28 @@ class MyRegisterView(CreateView):
     
 
 class My_class:
+    """MixinData class"""
     paginate_by = 10
     
+    def get_context_data(self, **kwargs):
+        """Add sorted_tag_list"""
+        kwargs = super().get_context_data(**kwargs)
+        unique_tags = set()
+        tag_list = Tag.objects.all()
+        model_list = self.model.objects.all()
+        for tag in tag_list:
+            for obj in model_list:
+                if tag in obj.tag.all():
+                    unique_tags.add(tag) 
+        kwargs.update({
+            'unique_tags': unique_tags,
+            'model': self.model,
+        })
+        return kwargs 
+    
+    
     def get_queryset(self):
+        """filter ads by selected tag"""
         tag = self.request.GET.get('tag')
         if not tag:
             return self.model.objects.all()
@@ -39,6 +58,7 @@ class My_class:
     
 def home(request):
     profile = Profile.objects.get(id = 5 )
+    
     nmb_ad = Seller.nmd_of_ads()
     turn_on_block = settings.MAINTENANCE_MODE
     name_seller = Seller.objects.name
@@ -54,21 +74,6 @@ class CarsList(My_class, ListView ):
     model = Car
     template_name = 'main/cars_list.html'
 
-    def get_context_data(self, **kwargs):
-        kwargs = super(CarsList, self).get_context_data(**kwargs)
-        unique_tags = set()
-        tag_list = Tag.objects.all()
-        model_list = self.model.objects.all()
-        for tag in tag_list:
-            for obj in model_list:
-                if tag in obj.tag.all():
-                    unique_tags.add(tag)                 
-        kwargs.update({
-            'unique_tags': unique_tags,
-            'model': self.model,
-        })
-        return kwargs 
-    
 
     
 class CarDetailView(DetailView):
@@ -91,23 +96,7 @@ class ServicesList(My_class, ListView):
     model = Services
     template_name = 'main/services_list.html'
     
-    def get_context_data(self, **kwargs):
-        kwargs = super(ServicesList, self).get_context_data(**kwargs)
-        unique_tags = set()
-        tag_list = Tag.objects.all()
-        model_list = self.model.objects.all()
-        for tag in tag_list:
-            for obj in model_list:
-                if tag in obj.tag.all():
-                    unique_tags.add(tag)                 
-        kwargs.update({
-            'unique_tags': unique_tags,
-            'model': self.model,
-        })
-        return kwargs 
-    
-    
-    
+  
     
 class ServicesDetailView(DetailView):
     model = Services
@@ -118,22 +107,6 @@ class StuffList(My_class, ListView):
     model = Stuff
     template_name = 'main/stuff_list.html'
     
-    def get_context_data(self, **kwargs):
-        kwargs = super(StuffList, self).get_context_data(**kwargs)
-        unique_tags = set()
-        tag_list = Tag.objects.all()
-        model_list = self.model.objects.all()
-        for tag in tag_list:
-            for obj in model_list:
-                if tag in obj.tag.all():
-                    unique_tags.add(tag)                 
-        kwargs.update({
-            'unique_tags': unique_tags,
-            'model': self.model,
-        })
-        return kwargs 
-    
-
     
 class StuffDetailView(DetailView):
     model = Stuff

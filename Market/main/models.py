@@ -22,9 +22,18 @@ class Tag(models.Model):
     def __str__(self):
         return 'Tag: %s' % self.title
 
+from django.utils.timezone import now
+from django.core.exceptions import ValidationError
+
+def validate_birthday(birthday):
+    today = now()
+    if (today.year - birthday.year) < 18:
+        raise ValidationError('Вам нет 18!')
+
 class Profile(User):
     """Model of Profile (for registration new user)"""
-    birthday = models.DateField(max_length=8)
+    
+    birthday = models.DateField(max_length=8, validators=[validate_birthday])
     img = ImageField(upload_to='img_html', blank=True, default='img_html/default.jpg')
     
     def get_absolute_url(self):

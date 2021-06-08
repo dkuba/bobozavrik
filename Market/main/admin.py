@@ -37,6 +37,8 @@ admin.site.register(TypeFuel)
 admin.site.register(Car)
 admin.site.register(Services)
 
+admin.site.register(Picture)
+
 admin.site.register(Profile)
 
 

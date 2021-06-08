@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse ,HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from .models import *
 from django.conf import settings 
@@ -10,7 +11,8 @@ from django.views.generic import (
     ListView,
     DetailView,
     UpdateView,
-    CreateView
+    CreateView,
+    FormView,
 )
 
 
@@ -73,25 +75,76 @@ def home(request):
 class CarsList(My_class, ListView ):
     model = Car
     template_name = 'main/cars_list.html'
-
-
     
 class CarDetailView(DetailView):
     model = Car
     template_name = 'main/car_detail.html'
 
 
-class CarAddView(CreateView):
-    model = Car
-    fields = '__all__'
-    template_name = 'main/car_add.html'
-    
-class CarEditView(UpdateView):
-    model = Car
-    fields = '__all__'
-    template_name = 'main/car_edit.html'
-    
+from django.shortcuts import redirect
+from .forms import *
 
+def manage_picture(request, pk):
+    """CarUpdateView"""
+    if pk:
+        car = Car.objects.get(pk=pk)
+    else:
+        car = Car()
+    car_form = CarForm(instance=car)
+    
+    if pk:    
+        formset = CarPicturesFormset(instance=car)
+    else:
+        formset = CarPicturesFormset()
+        
+    
+    if request.method == "POST":
+        car_form = CarForm(request.POST, instance=car)
+        
+        if car_form.is_valid():
+            temp_car = car_form.save(commit=False)
+            formset = CarPicturesFormset(request.POST, request.FILES, instance=temp_car)
+            
+            if formset.is_valid():
+                formset.save()
+                temp_car.save()
+                return redirect('car-detail', pk=temp_car.id)
+            else:
+                return HttpResponse(str(formset.errors))
+        else:
+            return HttpResponse(str(car_form.errors))
+
+    return render(request, 'main/car_edit.html', {'car':car, 'car_form':car_form, 'picture_formset':formset })
+
+def car_add(request):
+    """CarAddView"""
+    
+    car = Car()
+    car_form = CarForm(instance=car)
+    formset = CarPicturesFormset()
+        
+    
+    if request.method == "POST":
+        car_form = CarForm(request.POST, instance=car)
+        
+        if car_form.is_valid():
+            temp_car = car_form.save(commit=False)
+            formset = CarPicturesFormset(request.POST, request.FILES, instance=temp_car)
+            
+            if formset.is_valid():
+                
+                temp_car.save()
+                formset.save()
+                return redirect('cars')
+            else:
+                return HttpResponse(str(formset.errors))
+        else:
+            return HttpResponse(str(car_form.errors))
+
+    return render(request, 'main/car_add.html', {'car':car, 'car_form':car_form, 'picture_formset':formset })
+
+    
+    
 class ServicesList(My_class, ListView): 
     model = Services
     template_name = 'main/services_list.html'

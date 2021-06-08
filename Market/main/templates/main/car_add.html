@@ -1,4 +1,38 @@
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
+{% load thumbnail %}
+
+<div>
+<h2> {{ car }} </h2>
+  
+<form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+
+    {{ picture_formset.management_form }}
+ 
+ 
+        {% for picture_form in picture_formset %}
+        {% thumbnail  picture_form.instance.img "60x60" crop="center" as im %}
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+        {% endthumbnail %}
+        <table>
+            {{ picture_form.as_table }}
+        </table>
+        
+        {% endfor %}
+
+        </div>
+        <hr>
+        <table>
+            {{ car_form.as_table }}
+        </table> 
+        <hr>
+        <p><input type="submit" value="Add Car"/></p>
+    </form>
+</div>
+
+<!-- <form method="post">
+    {% csrf_token %}
+    {{ car_form.as_table }}
+
     <input type="submit" value="Save">
-</form>
+</form> -->

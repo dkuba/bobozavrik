@@ -10,8 +10,8 @@ urlpatterns = [
     path('about/', views.flatpage, {'url': '/about/'}, name='about'),
     path('contacts/', views.flatpage, {'url': '/contacts/'}, name='contacts'),
     
-    path('cars/add/', CarAddView.as_view(), name='cars-add'),
-    path('cars/<int:pk>/edit/', CarEditView.as_view(), name='cars-update'),
+    path('cars/add/', car_add, name='cars-add'),
+    path('cars/<int:pk>/edit/', manage_picture, name='cars-update'),
     
     path('accounts/profile/<int:pk>/', ProfileUpdateView.as_view(), name='profile-update'), 
     

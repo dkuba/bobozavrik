@@ -1,4 +1,41 @@
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Update">
-</form>
+{% extends "main/base.html" %}
+{% load thumbnail %}
+
+{% block content %}
+<div>
+
+
+<h2> {{ car }} </h2>
+  
+<form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+
+    {{ picture_formset.management_form }}
+ 
+ 
+        {% for picture_form in picture_formset %}
+        {% thumbnail  picture_form.instance.img "60x60" crop="center" as im %}
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+        {% endthumbnail %}
+        <table>
+            {{ picture_form.as_table }}
+        </table>
+        
+        {% endfor %}
+
+        </div>
+        <hr>
+        <table>
+            {{ car_form.as_table }}
+        </table> 
+        <hr>
+        <p>
+            <button type="submit" value="Update collection" class="btn btn-primary w-100 mb-3">Update Ad</button>
+            <a href="{{ car.get_absolute_url  }}" role="button" class="btn btn-secondary w-100">Cancel</a>
+        </p> 
+    </form>
+</div>
+
+{% endblock %}
+

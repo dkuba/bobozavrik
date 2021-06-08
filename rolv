@@ -1,0 +1,66 @@
+* [33mf9b153e[m[33m ([m[1;36mHEAD -> [m[1;32m4_5_inlineformset_factory[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;31morigin/4_4_add_short-thumbnail[m[33m, [m[1;32mmain[m[33m, [m[1;32m4_4_add_short-thumbnail[m[33m)[m edit mixin class (in view)
+* [33me946a7c[m add picture model and picture for Profile
+* [33mb853000[m[33m ([m[1;31morigin/4_3_add_edit_ads[m[33m, [m[1;32m4_3_add_edit_ads[m[33m)[m add views for add and edit Ads
+* [33me55733e[m[33m ([m[1;31morigin/4_2_add_Profile_model[m[33m, [m[1;32m4_2_add_Profile_model[m[33m)[m add profile models
+* [33m8a46308[m[33m ([m[1;31morigin/4_1_add_paginator_and_filters[m[33m, [m[1;32m4_1_add_paginator_and_filters[m[33m)[m add tags meny
+* [33m154a10b[m add paginator
+* [33m5723db9[m[33m ([m[1;31morigin/3_4_generics[m[33m, [m[1;32m3_4_generics[m[33m)[m add username in header (edit 3_2)
+* [33m407087d[m test
+* [33m621bbc5[m edit models, add ListView-s and DetailView-s
+*   [33m96f1b61[m Merge branch '3_3_custom_tags_and_templates' into main
+[32m|[m[33m\[m  
+[32m|[m * [33m4267e25[m[33m ([m[1;31morigin/3_3_custom_tags_and_templates[m[33m, [m[1;32m3_3_custom_tags_and_templates[m[33m)[m add custom tag and filter
+* [33m|[m   [33m22b0567[m Merge branch '3_2_add_header_and_footer' into main
+[34m|[m[33m\[m [33m\[m  
+[34m|[m [33m|[m[33m/[m  
+[34m|[m * [33m2100a2a[m[33m ([m[1;31morigin/3_2_add_header_and_footer[m[33m, [m[1;32m3_2_add_header_and_footer[m[33m)[m add header and footer
+* [35m|[m   [33m04a83d7[m Merge branch '3_1_tag_in_templates' into main
+[36m|[m[35m\[m [35m\[m  
+[36m|[m [35m|[m[35m/[m  
+[36m|[m *   [33m1cdf973[m[33m ([m[1;31morigin/3_1_tag_in_templates[m[33m, [m[1;32m3_1_tag_in_templates[m[33m)[m Merge branch '3_1_tag_in_templates' of https://github.com/thinknetica-django-lab-03/bobozavrik into 3_1_tag_in_templates
+[36m|[m [1;32m|[m[1;33m\[m  
+[36m|[m [1;32m|[m * [33m21b06c0[m edit
+[36m|[m [1;32m|[m * [33m68bc05f[m add maintaine mode True/False
+[36m|[m * [1;33m|[m [33m0e8700f[m edit
+[36m|[m * [1;33m|[m [33mf6cc564[m add maintaine mode True/False
+* [1;33m|[m [1;33m|[m   [33m53c5b2f[m Merge branch 'main' of https://github.com/thinknetica-django-lab-03/bobozavrik into main
+[1;33m|[m[1;35m\[m [1;33m\[m [1;33m\[m  
+[1;33m|[m [1;35m|[m[1;33m/[m [1;33m/[m  
+[1;33m|[m[1;33m/[m[1;35m|[m [1;33m|[m   
+[1;33m|[m * [1;33m|[m   [33mac24af4[m Merge pull request #16 from thinknetica-django-lab-03/2_2_work_with_db
+[1;33m|[m [1;36m|[m[31m\[m [1;33m\[m  
+* [1;36m|[m [31m|[m [1;33m|[m [33md556061[m[33m ([m[1;31morigin/2_4_add_new_models[m[33m, [m[1;32m2_4_add_new_models[m[33m)[m change print, coments, discription, models
+[1;33m|[m [1;36m|[m[1;33m_[m[31m|[m[1;33m/[m  
+[1;33m|[m[1;33m/[m[1;36m|[m [31m|[m   
+* [1;36m|[m [31m|[m [33m1e63bbf[m add new model/ add proxy model
+[31m|[m [1;36m|[m[31m/[m  
+[31m|[m[31m/[m[1;36m|[m   
+* [1;36m|[m [33mc997bc3[m[33m ([m[1;31morigin/2_3_add_price[m[33m, [m[1;31morigin/2_2_work_with_db[m[33m, [m[1;32m2_3_add_price[m[33m, [m[1;32m2_2_work_with_db[m[33m)[m add_tests
+[1;36m|[m[1;36m/[m  
+*   [33m543ae8a[m Merge branch '2_1_add_model_seller' into main
+[32m|[m[33m\[m  
+[32m|[m * [33m1042572[m[33m ([m[1;31morigin/2_1_add_model_seller[m[33m, [m[1;32m2_1_add_model_seller[m[33m)[m edit slug
+[32m|[m * [33mf1c4dfb[m dop CKEditor
+[32m|[m * [33mf410b0e[m add models
+* [33m|[m   [33mc20cc7c[m Merge branch '1_4_add_base_html' into main
+[34m|[m[33m\[m [33m\[m  
+[34m|[m [33m|[m[33m/[m  
+[34m|[m * [33m691fb38[m[33m ([m[1;31morigin/1_4_add_base_html[m[33m, [m[1;32m1_4_add_base_html[m[33m)[m add bootstrap v4
+* [35m|[m   [33mcd122c8[m Merge branch '1_3_intstall_ckeditor' into main
+[36m|[m[35m\[m [35m\[m  
+[36m|[m [35m|[m[35m/[m  
+[36m|[m * [33me7bb871[m[33m ([m[1;31morigin/1_3_intstall_ckeditor[m[33m, [m[1;32m1_3_intstall_ckeditor[m[33m)[m add ckeditor
+[36m|[m * [33m44ea088[m add ckeditor
+* [1;31m|[m   [33m792b1b6[m Merge branch 'main' of https://github.com/thinknetica-django-lab-03/bobozavrik into main
+[1;31m|[m[1;33m\[m [1;31m\[m  
+[1;31m|[m [1;33m|[m[1;31m/[m  
+[1;31m|[m[1;31m/[m[1;33m|[m   
+[1;31m|[m *   [33m758b535[m Merge pull request #10 from thinknetica-django-lab-03/1_1_new_project
+[1;31m|[m [1;34m|[m[1;35m\[m  
+* [1;34m|[m [1;35m|[m [33m7046341[m[33m ([m[1;31morigin/1_2_add_standart_apps[m[33m, [m[1;32m1_2_add_standart_apps[m[33m)[m create flatpages
+[1;35m|[m [1;34m|[m[1;35m/[m  
+[1;35m|[m[1;35m/[m[1;34m|[m   
+* [1;34m|[m [33mb4739b3[m[33m ([m[1;31morigin/1_1_new_project[m[33m, [m[1;32m1_1_new_project[m[33m)[m Add DJ Project and app (main)1
+* [1;34m|[m [33mb76d9cd[m Add DJ Project and app (main)
+[1;34m|[m[1;34m/[m  
+* [33m965d181[m Initial commit

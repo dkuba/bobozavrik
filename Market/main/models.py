@@ -103,6 +103,7 @@ class Car(BaseAd):
     
 class Picture(models.Model):
     """Model for picture (for Car)"""
+    test_field = models.CharField(max_length=100, default='test picture words')
     img = ImageField(upload_to='img_html', blank=True, default='img_html/default.jpg')
     car = models.ForeignKey(Car, blank=True, null=True, on_delete=models.CASCADE, default=None)
     

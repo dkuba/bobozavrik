@@ -1,13 +1,20 @@
-from django.urls import path
+from django.urls import include, path
 from .views import * 
 
 from django.contrib.flatpages import views
+
+from django.views.generic import TemplateView
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('register/', MyRegisterView.as_view(), name='register'),
     path('login/', MyLoginView.as_view(), name='login'),
     
-    path('', home, name='home'),
+    path('', TemplateView.as_view(template_name="index.html"), name='home'),
+    path('accounts/', include('allauth.urls')),
+    path('logout', LogoutView.as_view()),
+    
+    # path('', home, name='home'),
     path('about/', views.flatpage, {'url': '/about/'}, name='about'),
     path('contacts/', views.flatpage, {'url': '/contacts/'}, name='contacts'),
     

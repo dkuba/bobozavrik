@@ -22,6 +22,8 @@ class Tag(models.Model):
     def __str__(self):
         return 'Tag: %s' % self.title
 
+
+"""Add validation birthday for Profile"""
 from django.utils.timezone import now
 from django.core.exceptions import ValidationError
 
@@ -109,6 +111,7 @@ class Car(BaseAd):
     
     def get_absolute_url(self):
         return reverse('car-detail', kwargs={'pk':self.pk})
+    
     
 class Picture(models.Model):
     """Model for picture (for Car)"""

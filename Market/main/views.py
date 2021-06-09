@@ -1,11 +1,14 @@
-from django.http.response import HttpResponse ,HttpResponseRedirect
+from django.http.response import HttpResponse 
 from django.shortcuts import get_object_or_404, render
+
 from .models import *
 from django.conf import settings 
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
 
 from django.views.generic import (
     ListView,
@@ -15,18 +18,22 @@ from django.views.generic import (
     FormView,
 )
 
+class MyRegisterView(CreateView):
+    """New User Register Page"""
+    template_name = "main/register_user.html"
+    form_class = UserCreationForm
+    success_url = '/'
+    
+class MyLoginView(LoginView):
+    """Login Page"""
+    template_name = "main/login.html"
+
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = Profile
     fields = ["first_name", "last_name", "birthday", "email", 'img']
     template_name = 'main/profile_update.html'
-    
 
-class MyRegisterView(CreateView):
-    template_name = "main/register_user.html"
-    form_class = UserCreationForm
-    success_url = '/'
-    
 
 class My_class:
     """MixinData class"""
@@ -71,11 +78,13 @@ def home(request):
     'profile': profile
     })
 
+ 
     
 class CarsList(My_class, ListView ):
     model = Car
     template_name = 'main/cars_list.html'
     
+ 
 class CarDetailView(DetailView):
     model = Car
     template_name = 'main/car_detail.html'
@@ -84,14 +93,15 @@ class CarDetailView(DetailView):
 from django.shortcuts import redirect
 from .forms import *
 
+
+@login_required
 def manage_picture(request, pk):
     """CarUpdateView"""
     if pk:
         car = Car.objects.get(pk=pk)
     else:
         car = Car()
-    car_form = CarForm(instance=car)
-    
+    car_form = CarForm(instance=car)    
     if pk:    
         formset = CarPicturesFormset(instance=car)
     else:
@@ -113,16 +123,15 @@ def manage_picture(request, pk):
                 return HttpResponse(str(formset.errors))
         else:
             return HttpResponse(str(car_form.errors))
-
     return render(request, 'main/car_edit.html', {'car':car, 'car_form':car_form, 'picture_formset':formset })
+
 
 def car_add(request):
     """CarAddView"""
-    
+        
     car = Car()
     car_form = CarForm(instance=car)
-    formset = CarPicturesFormset()
-        
+    formset = CarPicturesFormset()        
     
     if request.method == "POST":
         car_form = CarForm(request.POST, instance=car)
@@ -131,8 +140,7 @@ def car_add(request):
             temp_car = car_form.save(commit=False)
             formset = CarPicturesFormset(request.POST, request.FILES, instance=temp_car)
             
-            if formset.is_valid():
-                
+            if formset.is_valid():                
                 temp_car.save()
                 formset.save()
                 return redirect('cars')

@@ -51,11 +51,6 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         instance.groups.add(Group.objects.get(name='common users'))
 
-# common_group, created  = Group.objects.get_or_create(name='common users')
-# users = Profile.objects.all()
-# for user in users:
-#     common_group.user_set.add(user)
-    
 
 class Seller(User):
     """Model of our Seller (users)"""

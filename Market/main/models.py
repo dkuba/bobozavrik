@@ -1,7 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.urls import reverse
 from sorl.thumbnail import ImageField
+
+
 
 
 class Category(models.Model):
@@ -40,6 +42,19 @@ class Profile(User):
     
     def get_absolute_url(self):
         return reverse('profile-update', kwargs={'pk':self.pk})
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        instance.groups.add(Group.objects.get(name='common users'))
+
+# common_group, created  = Group.objects.get_or_create(name='common users')
+# users = Profile.objects.all()
+# for user in users:
+#     common_group.user_set.add(user)
     
 
 class Seller(User):
@@ -64,7 +79,7 @@ class BaseAd(models.Model):
     """Base (Superclass) Model for different type of Ads """
     
     title = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(default="")
     price = models.PositiveIntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)
     
@@ -99,7 +114,8 @@ class TypeFuel(models.Model):
     type_fuel = models.CharField(max_length=24, blank=True, null=True, default=None)
     def __str__(self):
         return 'TypeFuel: %s' % self.type_fuel
-       
+
+
 class Car(BaseAd):
     """Model for Ads with Cars"""
     

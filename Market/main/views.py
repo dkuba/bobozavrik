@@ -9,13 +9,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
+from .forms import *
+from django.urls import reverse_lazy
 
 from django.views.generic import (
     ListView,
     DetailView,
     UpdateView,
     CreateView,
-    FormView,
 )
 
 class MyRegisterView(CreateView):
@@ -55,7 +56,6 @@ class My_class:
         })
         return kwargs 
     
-    
     def get_queryset(self):
         """filter ads by selected tag"""
         tag = self.request.GET.get('tag')
@@ -78,86 +78,91 @@ def home(request):
     'profile': profile
     })
 
- 
-    
+
 class CarsList(My_class, ListView ):
+    """All Car (lisit)"""
     model = Car
     template_name = 'main/cars_list.html'
     
- 
 class CarDetailView(DetailView):
+    """detail view for Car"""
     model = Car
     template_name = 'main/car_detail.html'
 
 
-from django.shortcuts import redirect
-from .forms import *
 
-
-@login_required
-def manage_picture(request, pk):
-    """CarUpdateView"""
-    if pk:
-        car = Car.objects.get(pk=pk)
-    else:
-        car = Car()
-    car_form = CarForm(instance=car)    
-    if pk:    
-        formset = CarPicturesFormset(instance=car)
-    else:
-        formset = CarPicturesFormset()
-        
-    
-    if request.method == "POST":
-        car_form = CarForm(request.POST, instance=car)
-        
-        if car_form.is_valid():
-            temp_car = car_form.save(commit=False)
-            formset = CarPicturesFormset(request.POST, request.FILES, instance=temp_car)
-            
-            if formset.is_valid():
-                formset.save()
-                temp_car.save()
-                return redirect('car-detail', pk=temp_car.id)
-            else:
-                return HttpResponse(str(formset.errors))
-        else:
-            return HttpResponse(str(car_form.errors))
-    return render(request, 'main/car_edit.html', {'car':car, 'car_form':car_form, 'picture_formset':formset })
-
-
-def car_add(request):
+class CarAddView(CreateView):
     """CarAddView"""
-        
-    car = Car()
-    car_form = CarForm(instance=car)
-    formset = CarPicturesFormset()        
-    
-    if request.method == "POST":
-        car_form = CarForm(request.POST, instance=car)
-        
-        if car_form.is_valid():
-            temp_car = car_form.save(commit=False)
-            formset = CarPicturesFormset(request.POST, request.FILES, instance=temp_car)
-            
-            if formset.is_valid():                
-                temp_car.save()
-                formset.save()
-                return redirect('cars')
-            else:
-                return HttpResponse(str(formset.errors))
+    model = Car
+    fields = '__all__'
+    success_url=reverse_lazy('cars')
+    template_name = 'main/car_add.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CarAddView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['picture_formset'] = CarPicturesFormset(self.request.POST, self.request.FILES)
+            context['car_form'] = CarForm(self.request.POST, self.request.FILES)
         else:
-            return HttpResponse(str(car_form.errors))
-
-    return render(request, 'main/car_add.html', {'car':car, 'car_form':car_form, 'picture_formset':formset })
-
+            context['picture_formset'] = CarPicturesFormset()
+            context['car_form'] = CarForm()
+        return context
     
+    def form_valid(self, form):
+        context = self.get_context_data(form=form)
+        car_form = context['car_form']
+        picture = context['picture_formset']
+        
+        if car_form.is_valid() and picture.is_valid():
+            response = super().form_valid(form)
+            car_form.instance = self.object
+            picture.instance = self.object
+            picture.save()
+            car_form.save()            
+            return response
+        else:
+            return super().form_invalid(form)
+        
+        
+class CarEditView(UpdateView):
+    """CarUpdateView"""
+    
+    model = Car
+    fields = '__all__'
+    success_url=reverse_lazy('cars')
+    template_name = 'main/car_edit.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CarEditView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['picture_formset'] = CarPicturesFormset(self.request.POST, self.request.FILES, instance=self.object)
+            context['car_form'] = CarForm(self.request.POST, self.request.FILES, instance=self.object)
+            context['picture_formset'].full_clean()
+            context['car_form'].full_clean()
+        else:
+            context['picture_formset'] = CarPicturesFormset(instance=self.object)
+            context['car_form'] = CarForm(instance=self.object)
+        return context
+    
+    def form_valid(self, form):
+        context = self.get_context_data(form=form)
+        car_form = context['car_form']
+        picture = context['picture_formset']
+        
+        if car_form.is_valid() and picture.is_valid():
+            response = super().form_valid(form)
+            car_form.instance = self.object
+            picture.instance = self.object
+            picture.save()
+            car_form.save()
+            return response
+        else:
+            return super().form_invalid(form)
+
     
 class ServicesList(My_class, ListView): 
     model = Services
     template_name = 'main/services_list.html'
-    
-  
     
 class ServicesDetailView(DetailView):
     model = Services

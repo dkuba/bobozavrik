@@ -160,7 +160,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 
-# LOGIN_URL = '/login/'
+LOGIN_URL = '/accounts/login/'
 
 
 STATIC_URL = '/static/'

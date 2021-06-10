@@ -14,12 +14,12 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('logout', LogoutView.as_view()),
     
-    # path('', home, name='home'),
     path('about/', views.flatpage, {'url': '/about/'}, name='about'),
     path('contacts/', views.flatpage, {'url': '/contacts/'}, name='contacts'),
     
-    path('cars/add/', car_add, name='cars-add'),
-    path('cars/<int:pk>/edit/', manage_picture, name='cars-update'),
+
+    path('cars/add/', CarAddView.as_view(), name='cars-add'),
+    path('cars/<int:pk>/edit/', login_required(CarEditView.as_view()), name='cars-update'),
     
     path('accounts/profile/<int:pk>/', ProfileUpdateView.as_view(), name='profile-update'), 
     

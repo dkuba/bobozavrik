@@ -1,13 +1,13 @@
 *.pyc 
 db.sqlite3
 _ _ pycache _ _ 
-.idea 
+.idea/ 
 .static/
 STATIC_ROOT
 /ckeditor/
 
 .media/
-
+.media/img_html
 ### Django ###
 *.log
 *.pot

@@ -6,8 +6,7 @@ _ _ pycache _ _
 STATIC_ROOT
 /ckeditor/
 
-media/
-media/img_html/
+/Market/media/
 ### Django ###
 *.log
 *.pot

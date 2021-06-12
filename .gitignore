@@ -2,10 +2,11 @@
 db.sqlite3
 _ _ pycache _ _ 
 .idea 
-/static/
+/*.static/
 STATIC_ROOT
 /ckeditor/
 
+/*.media
 
 ### Django ###
 *.log

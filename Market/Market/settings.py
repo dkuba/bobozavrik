@@ -135,8 +135,16 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 AUTH_PARAMS = ['access_type'] 
-DEFAULT_FROM_EMAIL = 'you@domain.com' 
-# EMAIL_BACKEND = venvl('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'drokvadim@gmail.com'
+EMAIL_HOST_PASSWORD = '***'
 
 SITE_ID = 2
 

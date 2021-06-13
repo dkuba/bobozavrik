@@ -149,13 +149,22 @@ class AdArchive(Services):
         ordering = ["created_date"]
 
 
+class Subscriber(models.Model):
+    """Model for users who subsribe to news"""
+    email = models.EmailField()
+    date = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return 'Subscriber: %s' % self.email
+
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.db.models.signals import post_save
 
-def user_add_save(sender, instance, created,  **kwargs):
 
+def user_add_save(sender, instance, created,  **kwargs):
+    """Send email for new User when registered"""
     user = instance
     if created:
         email_adress = user.email
@@ -169,5 +178,21 @@ def user_add_save(sender, instance, created,  **kwargs):
         msg.attach_alternative(email_body, 'text/html')
         msg.send()
 
-            
+
+def add_new_ad(sender, instance, created,  **kwargs):
+    """Send email for new User when add new Ad"""
+    if created:
+        title = instance.title.encode('utf-8')
+        for item in Subscriber.objects.all():
+            email_adress = item.email            
+            data = {
+                'email': email_adress,
+                'title' : title,
+            }
+            email_body = render_to_string('main/email_add_ad.html', data)
+            msg = EmailMultiAlternatives(subject='Добавленно новое обьявление', to=[email_adress, ])
+            msg.attach_alternative(email_body, 'text/html')
+            msg.send()
+    
 post_save.connect(user_add_save, sender=User)
+post_save.connect(add_new_ad, sender=Car)

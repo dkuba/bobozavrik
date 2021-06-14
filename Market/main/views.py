@@ -65,9 +65,26 @@ class My_class:
         return self.model.objects.filter(tag=tag_obj)
     
     
+class My_CarMix:
+    """MixinData class for Car"""    
+    def form_valid(self, form):
+        context = self.get_context_data(form=form)
+        car_form = context['car_form']
+        picture = context['picture_formset']
+        
+        if car_form.is_valid() and picture.is_valid():
+            response = super().form_valid(form)
+            car_form.instance = self.object
+            picture.instance = self.object
+            picture.save()
+            car_form.save()
+            return response
+        else:
+            return super().form_invalid(form)
+    
+    
 def home(request):
     profile = Profile.objects.get(id = 5 )
-    
     nmb_ad = Seller.nmd_of_ads()
     turn_on_block = settings.MAINTENANCE_MODE
     name_seller = Seller.objects.name
@@ -90,8 +107,7 @@ class CarDetailView(DetailView):
     template_name = 'main/car_detail.html'
 
 
-
-class CarAddView(CreateView):
+class CarAddView(My_CarMix, CreateView):
     """CarAddView"""
     model = Car
     fields = '__all__'
@@ -108,23 +124,8 @@ class CarAddView(CreateView):
             context['car_form'] = CarForm()
         return context
     
-    def form_valid(self, form):
-        context = self.get_context_data(form=form)
-        car_form = context['car_form']
-        picture = context['picture_formset']
         
-        if car_form.is_valid() and picture.is_valid():
-            response = super().form_valid(form)
-            car_form.instance = self.object
-            picture.instance = self.object
-            picture.save()
-            car_form.save()            
-            return response
-        else:
-            return super().form_invalid(form)
-        
-        
-class CarEditView(UpdateView):
+class CarEditView(My_CarMix, UpdateView):
     """CarUpdateView"""
     
     model = Car
@@ -133,7 +134,7 @@ class CarEditView(UpdateView):
     template_name = 'main/car_edit.html'
 
     def get_context_data(self, **kwargs):
-        context = super(CarEditView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if self.request.POST:
             context['picture_formset'] = CarPicturesFormset(self.request.POST, self.request.FILES, instance=self.object)
             context['car_form'] = CarForm(self.request.POST, self.request.FILES, instance=self.object)
@@ -144,22 +145,7 @@ class CarEditView(UpdateView):
             context['car_form'] = CarForm(instance=self.object)
         return context
     
-    def form_valid(self, form):
-        context = self.get_context_data(form=form)
-        car_form = context['car_form']
-        picture = context['picture_formset']
-        
-        if car_form.is_valid() and picture.is_valid():
-            response = super().form_valid(form)
-            car_form.instance = self.object
-            picture.instance = self.object
-            picture.save()
-            car_form.save()
-            return response
-        else:
-            return super().form_invalid(form)
 
-    
 class ServicesList(My_class, ListView): 
     model = Services
     template_name = 'main/services_list.html'
@@ -177,4 +163,3 @@ class StuffList(My_class, ListView):
 class StuffDetailView(DetailView):
     model = Stuff
     template_name = 'main/stuff_detail.html'
-

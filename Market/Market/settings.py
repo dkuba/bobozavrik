@@ -135,6 +135,8 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 AUTH_PARAMS = ['access_type'] 
+DEFAULT_FROM_EMAIL = 'you@domain.com' 
+# EMAIL_BACKEND = venvl('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
 
 SITE_ID = 2
 
@@ -180,7 +182,6 @@ STATICFILES_DIRS = [
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 
 CKEDITOR_UPLOAD_PATH = "uploads/"

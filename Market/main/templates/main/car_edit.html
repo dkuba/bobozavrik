@@ -13,7 +13,6 @@
 
     {{ picture_formset.management_form }}
  
- 
         {% for picture_form in picture_formset %}
         {% thumbnail  picture_form.instance.img "60x60" crop="center" as im %}
         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">

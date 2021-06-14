@@ -50,9 +50,12 @@ class Profile(User):
         return reverse('profile-update', kwargs={'pk':self.pk})
 
 
+# Add new all User in 'common group'
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
+    
     if created:
+        common_users, c = Group.objects.get_or_create(name='common users')
         instance.groups.add(Group.objects.get(name='common users'))
 
 

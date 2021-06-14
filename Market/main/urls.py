@@ -6,7 +6,9 @@ from django.contrib.flatpages import views
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LogoutView
 
-urlpatterns = [
+from allauth.account.views import confirm_email as allauthemailconfirmation
+
+urlpatterns = [    
     path('register/', MyRegisterView.as_view(), name='register'),
     path('login/', MyLoginView.as_view(), name='login'),
     

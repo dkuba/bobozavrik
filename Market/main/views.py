@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, render
 from .models import *
 from django.conf import settings 
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -107,8 +107,10 @@ class CarDetailView(DetailView):
     template_name = 'main/car_detail.html'
 
 
-class CarAddView(My_CarMix, CreateView):
+class CarAddView(PermissionRequiredMixin, My_CarMix, CreateView):
     """CarAddView"""
+
+    permission_required = 'main.add_car'  #db - 57
     model = Car
     fields = '__all__'
     success_url=reverse_lazy('cars')
@@ -125,10 +127,12 @@ class CarAddView(My_CarMix, CreateView):
         return context
     
         
-class CarEditView(My_CarMix, UpdateView):
-    """CarUpdateView"""
+class CarEditView(PermissionRequiredMixin, My_CarMix, UpdateView):
     
-    model = Car
+    permission_required = 'main.change_car'
+    """CarUpdateView"""     #db - 58 
+    
+    model = Car 
     fields = '__all__'
     success_url=reverse_lazy('cars')
     template_name = 'main/car_edit.html'

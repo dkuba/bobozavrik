@@ -17,6 +17,7 @@ class CarForm(forms.ModelForm):
     class Meta:
         model = Car
         fields = '__all__'
+        exclude = ['seller']
         
 class PictureForm(forms.ModelForm):
     class Meta:
@@ -26,5 +27,3 @@ class PictureForm(forms.ModelForm):
 from django.forms.models import inlineformset_factory
 
 CarPicturesFormset = inlineformset_factory(Car, Picture,  fields = ['img',], extra=1)
-
-# extra=1

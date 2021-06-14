@@ -1,7 +1,9 @@
 from .models import *
+
+
 def add_new_ad():
     """Send email for new User about new ad"""
-    print('test_1')
+
     cars = Car.objects.all()
     title_list=[]
     for car in cars:
@@ -17,4 +19,4 @@ def add_new_ad():
         msg = EmailMultiAlternatives(subject='Обьявления машин', to=[email_adress, ])
         msg.attach_alternative(email_body, 'text/html')
         msg.send()
-    print('test_2')
+

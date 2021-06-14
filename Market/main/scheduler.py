@@ -1,6 +1,6 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-
 from . import jobs_1    
+
 
 def start():
     scheduler = BackgroundScheduler()

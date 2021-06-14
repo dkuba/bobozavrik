@@ -5,6 +5,7 @@ from django.contrib.flatpages import views
 
 urlpatterns = [
     path('register/', MyRegisterView.as_view(), name='register'),
+    path('login/', MyLoginView.as_view(), name='login'),
     
     path('', home, name='home'),
     path('about/', views.flatpage, {'url': '/about/'}, name='about'),

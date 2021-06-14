@@ -7,7 +7,7 @@ STATIC_ROOT
 /ckeditor/
 
 my_source.py
-
+/Market/static/admin/js/vendor/
 /Market/media/
 ### Django ###
 *.log

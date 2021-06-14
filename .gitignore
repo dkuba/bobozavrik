@@ -1,17 +1,23 @@
 *.pyc 
 db.sqlite3
 _ _ pycache _ _ 
-.idea 
-/static/
+.idea/ 
+.static/
 STATIC_ROOT
 /ckeditor/
 /Market/media/
 
+<<<<<<< HEAD
 /Market/media/
 
 /Market/static/admin/js/vendor/
 
 my_source.py
+=======
+my_source.py
+
+/Market/media/
+>>>>>>> 6_1_send_email
 ### Django ###
 *.log
 *.pot

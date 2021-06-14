@@ -21,6 +21,7 @@ from django.views.generic import (
 
 class MyRegisterView(CreateView):
     """New User Register Page"""
+
     template_name = "main/register_user.html"
     form_class = UserCreationForm
     success_url = '/'

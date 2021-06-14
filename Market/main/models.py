@@ -1,9 +1,8 @@
+from django.core.mail.message import EmailMultiAlternatives
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.urls import reverse
 from sorl.thumbnail import ImageField
-
-
 
 
 class Category(models.Model):
@@ -149,5 +148,26 @@ class AdArchive(Services):
         proxy = True
         ordering = ["created_date"]
 
-    
 
+from django.core.mail import EmailMessage
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.db.models.signals import post_save
+
+def user_add_save(sender, instance, created,  **kwargs):
+
+    user = instance
+    if created:
+        email_adress = user.email
+        name = user.last_name
+        data = {
+            'email': email_adress,
+            'name' : name,
+        }
+        email_body = render_to_string('main/email_reg_user.html', data)
+        msg = EmailMultiAlternatives(subject='реестрация аккаунта', to=[email_adress, ])
+        msg.attach_alternative(email_body, 'text/html')
+        msg.send()
+
+            
+post_save.connect(user_add_save, sender=User)

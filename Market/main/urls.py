@@ -1,18 +1,25 @@
-from django.urls import path
+from django.urls import include, path
 from .views import * 
 
 from django.contrib.flatpages import views
+
+from django.views.generic import TemplateView
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('register/', MyRegisterView.as_view(), name='register'),
     path('login/', MyLoginView.as_view(), name='login'),
     
-    path('', home, name='home'),
+    path('', TemplateView.as_view(template_name="index.html"), name='home'),
+    path('accounts/', include('allauth.urls')),
+    path('logout', LogoutView.as_view()),
+    
     path('about/', views.flatpage, {'url': '/about/'}, name='about'),
     path('contacts/', views.flatpage, {'url': '/contacts/'}, name='contacts'),
     
-    path('cars/add/', car_add, name='cars-add'),
-    path('cars/<int:pk>/edit/', manage_picture, name='cars-update'),
+
+    path('cars/add/', CarAddView.as_view(), name='cars-add'),
+    path('cars/<int:pk>/edit/', login_required(CarEditView.as_view()), name='cars-update'),
     
     path('accounts/profile/<int:pk>/', ProfileUpdateView.as_view(), name='profile-update'), 
     

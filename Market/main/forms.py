@@ -17,9 +17,14 @@ class CarForm(forms.ModelForm):
     class Meta:
         model = Car
         fields = '__all__'
-
+        
+class PictureForm(forms.ModelForm):
+    class Meta:
+        model = Picture
+        fields = ['img']
 
 from django.forms.models import inlineformset_factory
 
+CarPicturesFormset = inlineformset_factory(Car, Picture,  fields = ['img',], extra=1)
 
-CarPicturesFormset = inlineformset_factory(Car, Picture, fields=('img', ),  extra=1)
+# extra=1

@@ -4,6 +4,15 @@ from django.contrib.auth.models import User, Group
 from django.urls import reverse
 from sorl.thumbnail import ImageField
 
+from django.template.loader import render_to_string
+from django.db.models.signals import post_save
+
+from django.utils.timezone import now
+from django.core.exceptions import ValidationError
+
+from django.dispatch import receiver
+
+
 
 class Category(models.Model):
     """Model for create categories of Ads"""
@@ -24,10 +33,7 @@ class Tag(models.Model):
         return 'Tag: %s' % self.title
 
 
-"""Add validation birthday for Profile"""
-from django.utils.timezone import now
-from django.core.exceptions import ValidationError
-
+# Add validation birthday for Profile
 def validate_birthday(birthday):
     today = now()
     if (today.year - birthday.year) < 18:
@@ -42,12 +48,13 @@ class Profile(User):
     def get_absolute_url(self):
         return reverse('profile-update', kwargs={'pk':self.pk})
 
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
+# Add new all User in 'common group'
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
+    
     if created:
+        common_users, c = Group.objects.get_or_create(name='common users')
         instance.groups.add(Group.objects.get(name='common users'))
 
 
@@ -64,7 +71,6 @@ class Seller(User):
     
     def nmd_of_ads():
         """Method for counting Ads for this Seller"""
-    
         ads = Car.objects.count() + Stuff.objects.count() + Services.objects.count()
         return ads
     
@@ -76,13 +82,9 @@ class BaseAd(models.Model):
     description = models.TextField(default="")
     price = models.PositiveIntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)
-    
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE, default=None)
-    
-    seller = models.ForeignKey(Seller, on_delete=models.CASCADE, verbose_name="продавец", related_name="%(app_label)s_%(class)s_sellers_ads", null=True)
-    
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE, verbose_name="продавец", related_name="%(app_label)s_%(class)s_sellers_ads", blank=True, null=True)
     tag = models.ManyToManyField(Tag, blank=True, related_name="%(app_label)s_%(class)s_ads", related_query_name="%(app_label)s_%(class)ss",)
-        
     created_date = models.DateTimeField(auto_now_add=True, auto_now=False) 
     updated_date = models.DateTimeField(auto_now_add=False, auto_now=True) 
     
@@ -156,11 +158,6 @@ class Subscriber(models.Model):
     
     def __str__(self):
         return 'Subscriber: %s' % self.email
-
-from django.core.mail import EmailMessage
-from django.conf import settings
-from django.template.loader import render_to_string
-from django.db.models.signals import post_save
 
 
 def user_add_save(sender, instance, created,  **kwargs):

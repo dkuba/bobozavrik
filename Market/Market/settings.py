@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     
-    'sorl.thumbnail',
+    'sorl.thumbnail',#for created thumbnail from pictures
+    
+    "django_apscheduler",
     
     'allauth',
     'allauth.account',

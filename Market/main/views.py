@@ -67,8 +67,11 @@ class My_class:
     
     
 class My_CarMix:
-    """MixinData class for Car"""    
+    """MixinData class for Car (Edit and Create views)"""    
     def form_valid(self, form):
+        # self.object = form.save(commit=False)
+        # self.object.seller = self.request.user
+        # self.object.save()
         context = self.get_context_data(form=form)
         car_form = context['car_form']
         picture = context['picture_formset']
@@ -82,8 +85,9 @@ class My_CarMix:
             return response
         else:
             return super().form_invalid(form)
+  
     
-    
+# my home view    
 def home(request):
     profile = Profile.objects.get(id = 5 )
     nmb_ad = Seller.nmd_of_ads()
@@ -101,6 +105,7 @@ class CarsList(My_class, ListView ):
     """All Car (lisit)"""
     model = Car
     template_name = 'main/cars_list.html'
+    
     
 class CarDetailView(DetailView):
     """detail view for Car"""
@@ -129,10 +134,8 @@ class CarAddView(PermissionRequiredMixin, My_CarMix, CreateView):
     
         
 class CarEditView(PermissionRequiredMixin, My_CarMix, UpdateView):
-    
-    permission_required = 'main.change_car'
-    """CarUpdateView"""     #db - 58 
-    
+    """CarUpdateView"""     
+    permission_required = 'main.change_car' #db - 58 
     model = Car 
     fields = '__all__'
     success_url=reverse_lazy('cars')

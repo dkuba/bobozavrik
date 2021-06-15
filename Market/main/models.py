@@ -10,7 +10,6 @@ from django.db.models.signals import post_save
 from django.utils.timezone import now
 from django.core.exceptions import ValidationError
 
-from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 

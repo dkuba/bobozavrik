@@ -13,3 +13,5 @@ my_source.py
 ### Django ###
 *.log
 *.pot
+
+get-docker.sh

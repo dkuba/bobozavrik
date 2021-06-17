@@ -147,6 +147,7 @@ SOCIALACCOUNT_PROVIDERS = {
 AUTH_PARAMS = ['access_type'] 
 
 from .my_source  import (g_password ,  g_email)
+import os
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -205,3 +206,8 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 
 MAINTENANCE_MODE = False
+
+
+
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")

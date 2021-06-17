@@ -123,7 +123,7 @@ class CarAddView(PermissionRequiredMixin, My_CarMix, CreateView):
     template_name = 'main/car_add.html'
 
     def get_context_data(self, **kwargs):
-        context = super(CarAddView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if self.request.POST:
             context['picture_formset'] = CarPicturesFormset(self.request.POST, self.request.FILES)
             context['car_form'] = CarForm(self.request.POST, self.request.FILES)

@@ -1,17 +1,58 @@
-version: "3.8"
+version: "3.2"
 services:
+  django:
+    build: .
+    container_name: django
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app/
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+    depends_on:
+      - redis
 
-    redis:
-        image: "redis:latest"
+  redis:
+    image: "redis:alpine"
 
-        command: redis-server --requirepass newpass
+    # command: redis-server --requirepass password1
 
-        ports:
-        - "6379:6379"
+    ports:
+     - "6379:6379"
 
-        volumes:
-        - $PWD/redis-data:/var/lib/redis
-        - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
+    volumes:
+      - $PWD/redis-data:/var/lib/redis
+      - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
 
-        environment:
-        - REDIS_REPLICATION_MODE=master
+    environment:
+     - REDIS_REPLICATION_MODE=master
+
+    # networks:
+    #   node_net:
+    #     ipv4_address: 172.28.1.4
+
+  celery:
+    build: .
+    command: celery -A Market worker -l INFO
+    volumes:
+        - .:/usr/src/app
+    environment:
+        - DEBUG=1
+        - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+        - CELERY_BROKER=redis://redis:6379/0
+        - CELERY_BACKEND=redis://redis:6379/0
+    depends_on:
+        - django
+        - redis
+
+# networking for the Redis container
+# networks:
+#   node_net:
+#     ipam:
+#       driver: default
+#       config:
+#         - subnet: 172.28.0.0/16

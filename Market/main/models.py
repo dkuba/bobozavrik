@@ -160,7 +160,7 @@ class Subscriber(models.Model):
         return 'Subscriber: %s' % self.email
 
 
-def user_add_save(sender, instance, created,  **kwargs):
+def new_user_add(sender, instance, created,  **kwargs):
     """Send email for new User when registered"""
     user = instance
     if created:
@@ -177,7 +177,8 @@ def user_add_save(sender, instance, created,  **kwargs):
 
 
 def add_new_ad(sender, instance, created,  **kwargs):
-    """Send email for new User when add new Ad"""
+    """Send email for new User when add new Ad
+    Using standart method"""
     if created:
         title = instance.title.encode('utf-8')
         for item in Subscriber.objects.all():
@@ -190,6 +191,25 @@ def add_new_ad(sender, instance, created,  **kwargs):
             msg = EmailMultiAlternatives(subject='Добавленно новое обьявление', to=[email_adress, ])
             msg.attach_alternative(email_body, 'text/html')
             msg.send()
+            
     
-post_save.connect(user_add_save, sender=User)
-post_save.connect(add_new_ad, sender=Car)
+from .tasks import send_feedback_email_task
+
+def add_new_ad_celery(sender, instance, created,  **kwargs):
+    """Send email for new User when add new Ad
+    Using Celery"""
+    if created:
+        title = instance.title
+        for item in Subscriber.objects.all():
+            email_adress = item.email 
+            data = {
+                'email': email_adress,
+                'title' : title,
+            }
+            
+            send_feedback_email_task.delay(email_adress, data)
+
+post_save.connect(new_user_add, sender=User)
+post_save.connect(add_new_ad_celery, sender=Car)
+
+

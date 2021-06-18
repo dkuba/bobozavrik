@@ -12,6 +12,8 @@ from django.core.exceptions import ValidationError
 
 from django.dispatch import receiver
 
+from .tasks import send_feedback_email_task
+
 
 
 class Category(models.Model):
@@ -60,7 +62,6 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 class Seller(User):
     """Model of our Seller (users)"""
-    # name = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, default=None, related_name = "Seller")
     class Meta:
         ordering = ('first_name',)
         verbose_name = "Seller"
@@ -160,6 +161,7 @@ class Subscriber(models.Model):
         return 'Subscriber: %s' % self.email
 
 
+
 def new_user_add(sender, instance, created,  **kwargs):
     """Send email for new User when registered"""
     user = instance
@@ -192,8 +194,6 @@ def add_new_ad(sender, instance, created,  **kwargs):
             msg.attach_alternative(email_body, 'text/html')
             msg.send()
             
-    
-from .tasks import send_feedback_email_task
 
 def add_new_ad_celery(sender, instance, created,  **kwargs):
     """Send email for new User when add new Ad
@@ -206,8 +206,8 @@ def add_new_ad_celery(sender, instance, created,  **kwargs):
                 'email': email_adress,
                 'title' : title,
             }
-            
             send_feedback_email_task.delay(email_adress, data)
+
 
 post_save.connect(new_user_add, sender=User)
 post_save.connect(add_new_ad_celery, sender=Car)

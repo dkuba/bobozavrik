@@ -26,8 +26,3 @@ def send_feedback_email_task( email_adress, data):
     msg.attach_alternative(email_body, 'text/html')
     msg.send()
     
-# @task(name="send_feedback_email_task")
-# def send_feedback_email_task( msg):
-#     """sends an email when feedback form is filled successfully"""
-
-#     msg.send()

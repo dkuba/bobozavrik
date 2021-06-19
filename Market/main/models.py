@@ -12,7 +12,7 @@ from django.core.exceptions import ValidationError
 
 from django.dispatch import receiver
 
-from .tasks import send_feedback_email_task
+from .tasks_models import send_feedback_email_task
 
 
 

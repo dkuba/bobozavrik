@@ -11,30 +11,30 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 app.autodiscover_tasks()
 
 
-@app.task
-def debug_task(ar):
-    print (ar)
+# @app.task
+# def debug_task(ar):
+#     print (ar)
 
-
-# app.conf.beat_schedule = {
-#     # Executes every Monday morning at 7:30 a.m.
-#     'send_email_week': {
-#         'task': 'main.tasks.send_email_week',
-#         'schedule': crontab(minute='*/1'),
-#         'args': ("BLa BLA BlA", ),
-#         # 'schedule': 5, 
-#     },
-# }
 
 app.conf.beat_schedule = {
     # Executes every Monday morning at 7:30 a.m.
     'send_email_week': {
-        'task': 'tasks.debug_task',
+        'task': 'main.tasks.send_email_week',
         'schedule': crontab(minute='*/1'),
         'args': ("BLa BLA BlA", ),
         # 'schedule': 5, 
     },
 }
+
+# app.conf.beat_schedule = {
+#     # Executes every Monday morning at 7:30 a.m.
+#     'send_email_week': {
+#         'task': 'tasks.debug_task',
+#         'schedule': crontab(minute='*/1'),
+#         'args': ("BLa BLA BlA", ),
+#         # 'schedule': 5, 
+#     },
+# }
 
 
 # @app.on_after_configure.connect

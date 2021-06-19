@@ -10,6 +10,7 @@ STATIC_ROOT
 /Market/static/admin/js/vendor/
 
 my_source.py
+
 ### Django ###
 *.log
 *.pot

@@ -31,7 +31,9 @@ services:
 
   celery:
     build: .
-    command: celery -A Market worker -l INFO
+    # command: celery -A Market worker -l INFO
+    command: celery -A Market beat -l INFO
+    # command: celery -A Market worker -B -l INFO
     volumes:
         - .:/usr/src/app
     environment:

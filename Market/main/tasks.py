@@ -1,13 +1,4 @@
 from __future__ import absolute_import, unicode_literals
-from celery import shared_task
-
-
-@shared_task
-def add(x, y):
-    return x + y
-
-
-
 from celery.decorators import task
 from celery.utils.log import get_task_logger
 
@@ -26,3 +17,21 @@ def send_feedback_email_task( email_adress, data):
     msg.attach_alternative(email_body, 'text/html')
     msg.send()
     
+    
+    
+    
+@task(name="send_email_week")
+def send_email_week():
+    """sends an email whith new ad"""
+    
+    
+    email_adress = 'drokvadim@gmail.com'
+    data = {
+        'email': "email_adress",
+        'title' : "title_list",
+    }
+    
+    msg = EmailMultiAlternatives(subject='Добавленно новое обьявление', to=[email_adress, ])
+    email_body = render_to_string('main/email_add_ad.html', data)
+    msg.attach_alternative(email_body, 'text/html')
+    msg.send()

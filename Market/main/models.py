@@ -14,6 +14,9 @@ from django.dispatch import receiver
 
 from .tasks_models import send_feedback_email_task
 
+from  .my_source import *
+from twilio.rest import Client
+
 
 
 class Category(models.Model):
@@ -46,9 +49,22 @@ class Profile(User):
     
     birthday = models.DateField(max_length=8, validators=[validate_birthday])
     img = ImageField(upload_to='img_html', blank=True, default='img_html/default.jpg')
+    phone_number =  models.CharField(max_length=12, blank=True, null=True)
     
     def get_absolute_url(self):
         return reverse('profile-update', kwargs={'pk':self.pk})
+    
+    def save(self, *args, **kwargs):
+        account_sid = ACCOUNT_SID
+        auth_token = AUTH_TOKEN
+        client = Client(account_sid, auth_token)
+
+        message = client.messages.create(
+                                    body='Hi there',
+                                    from_='+17029308792',
+                                    to=self.phone_number
+                                )
+        print(message.sid)
 
 
 # Add new all User in 'common group'

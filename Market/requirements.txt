@@ -28,6 +28,7 @@ requests-oauthlib==1.3.0
 six==1.16.0
 sorl-thumbnail==12.7.0
 sqlparse==0.4.1
+twilio
 typing-extensions==3.10.0.0
 tzlocal==2.1
 urllib3==1.26.5

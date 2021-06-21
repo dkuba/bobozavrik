@@ -14,7 +14,7 @@ from django.dispatch import receiver
 
 from .tasks_models import send_feedback_email_task
 
-from  .my_source import *
+from django.conf import settings 
 from twilio.rest import Client
 
 
@@ -55,13 +55,13 @@ class Profile(User):
         return reverse('profile-update', kwargs={'pk':self.pk})
     
     def save(self, *args, **kwargs):
-        account_sid = ACCOUNT_SID
-        auth_token = AUTH_TOKEN
+        account_sid = settings.ACCOUNT_SID
+        auth_token = settings.AUTH_TOKEN
         client = Client(account_sid, auth_token)
 
         message = client.messages.create(
                                     body='Hi there',
-                                    from_='+17029308792',
+                                    from_=settings.Phonne_from,
                                     to=self.phone_number
                                 )
         print(message.sid)

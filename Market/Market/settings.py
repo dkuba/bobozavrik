@@ -146,7 +146,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
 AUTH_PARAMS = ['access_type'] 
 
-from .my_source  import (g_password ,  g_email)
+from .my_source  import *
 import os
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -160,6 +160,12 @@ SITE_ID = 2
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# Twilio
+
+ACCOUNT_SID = my_ACCOUNT_SID
+AUTH_TOKEN = my_AUTH_TOKEN
+Phonne_from = '+17029308792'
 
 
 # Internationalization
@@ -182,9 +188,7 @@ USE_TZ = True
 
 LOGIN_URL = '/accounts/login/'
 
-
 STATIC_URL = '/static/'
-
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL =  '/media/'
@@ -198,16 +202,12 @@ STATICFILES_DIRS = [
 
 # THUMBNAIL_FORCE_OVERWRITE = True
 
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 
 MAINTENANCE_MODE = False
-
-
 
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")

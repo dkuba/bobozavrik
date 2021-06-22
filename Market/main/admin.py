@@ -41,5 +41,6 @@ admin.site.register(Picture)
 
 admin.site.register(Profile)
 admin.site.register(Subscriber)
+admin.site.register(SMSLog)
 
 

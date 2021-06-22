@@ -1,3 +1,4 @@
+from django.core.mail import message
 from django.core.mail.message import EmailMultiAlternatives
 from django.db import models
 from django.contrib.auth.models import User, Group
@@ -16,6 +17,7 @@ from .tasks_models import send_feedback_email_task
 
 from django.conf import settings 
 from twilio.rest import Client
+import random
 
 
 
@@ -44,12 +46,18 @@ def validate_birthday(birthday):
     if (today.year - birthday.year) < 18:
         raise ValidationError('Вам нет 18!')
 
+
+class SMSLog(models.Model):
+    sms_numer = models.CharField(max_length=5)
+    message_sid = models.TextField()
+
+
 class Profile(User):
     """Model of Profile (for registration new user)"""
     
     birthday = models.DateField(max_length=8, validators=[validate_birthday])
     img = ImageField(upload_to='img_html', blank=True, default='img_html/default.jpg')
-    phone_number =  models.CharField(max_length=12, blank=True, null=True)
+    phone_number =  models.CharField(max_length=15, blank=True, null=True)
     
     def get_absolute_url(self):
         return reverse('profile-update', kwargs={'pk':self.pk})
@@ -57,14 +65,20 @@ class Profile(User):
     def save(self, *args, **kwargs):
         account_sid = settings.ACCOUNT_SID
         auth_token = settings.AUTH_TOKEN
+        numder_phone = settings.PHONE_FROM
         client = Client(account_sid, auth_token)
-
+        sms_numer = random.randint(1000, 9999)
         message = client.messages.create(
-                                    body='Hi there',
-                                    from_=settings.Phonne_from,
+                                    body=sms_numer,
+                                    from_=numder_phone,
                                     to=self.phone_number
                                 )
         print(message.sid)
+        sms_log = SMSLog()
+        sms_log.sms_numer = sms_numer
+        sms_log.message_sid = message.sid
+        sms_log.save()
+        
 
 
 # Add new all User in 'common group'

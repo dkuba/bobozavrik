@@ -165,11 +165,12 @@ LOGOUT_REDIRECT_URL = '/'
 
 ACCOUNT_SID = my_ACCOUNT_SID
 AUTH_TOKEN = my_AUTH_TOKEN
-Phonne_from = '+17029308792'
+PHONE_FROM = os.environ.get('FROM_PHONE_NUMBER_FOR_SMS', '+17029308792')
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
+
 
 LANGUAGE_CODE = 'en-us'
 

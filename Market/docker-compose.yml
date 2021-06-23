@@ -13,6 +13,7 @@ services:
       - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
       - CELERY_BROKER=redis://redis:6379/0
       - CELERY_BACKEND=redis://redis:6379/0
+      - REDIS_HOST=redis
     depends_on:
       - redis
 
@@ -28,6 +29,9 @@ services:
 
     environment:
      - REDIS_REPLICATION_MODE=master
+     - REDIS_HOST=redis
+
+
 
   celery:
     build: .

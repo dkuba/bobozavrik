@@ -11,6 +11,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from .forms import *
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from django.views.generic import (
     ListView,
@@ -134,7 +136,8 @@ class CarAddView(PermissionRequiredMixin, My_CarMix, CreateView):
             context['car_form'] = CarForm()
         return context
     
-        
+    
+@method_decorator(cache_page(60 * 60), name="dispatch")    
 class CarEditView(PermissionRequiredMixin, My_CarMix, UpdateView):
     """CarUpdateView"""     
     permission_required = 'main.change_car' #db - 58 

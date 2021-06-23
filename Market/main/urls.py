@@ -7,6 +7,7 @@ from allauth.account.views import confirm_email as allauthemailconfirmation
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.views.decorators.cache import cache_page
 
 
 urlpatterns = [    
@@ -21,12 +22,12 @@ urlpatterns = [
     path('contacts/', views.flatpage, {'url': '/contacts/'}, name='contacts'),
     
     path('cars/add/', CarAddView.as_view(), name='cars-add'),
-    path('cars/<int:pk>/edit/', login_required(CarEditView.as_view()), name='cars-update'),
+    path('cars/<int:pk>/edit/', CarEditView.as_view(), name='cars-update'),
     
     path('accounts/profile/<int:pk>/', ProfileUpdateView.as_view(), name='profile-update'), 
     
     path('cars/', CarsList.as_view(), name='cars'),    
-    path('cars/<int:pk>/', CarDetailView.as_view(), name='car-detail'),
+    path('cars/<int:pk>/', cache_page(60*60)(CarDetailView.as_view()), name='car-detail'),
     
     path('services/', ServicesList.as_view(), name='services'),
     path('services/<int:pk>/', ServicesDetailView.as_view(), name='services-detail'),

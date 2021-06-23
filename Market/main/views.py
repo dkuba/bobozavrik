@@ -36,6 +36,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     fields = ["first_name", "last_name", "birthday", "email", 'img']
     template_name = 'main/profile_update.html'
 
+from django.core.cache import cache
 
 class My_class:
     """MixinData class"""
@@ -59,6 +60,7 @@ class My_class:
     
     def get_queryset(self):
         """filter ads by selected tag"""
+        
         tag = self.request.GET.get('tag')
         if not tag:
             return self.model.objects.all()

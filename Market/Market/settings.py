@@ -161,8 +161,8 @@ SITE_ID = 2
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-# Twilio
 
+# Twilio
 ACCOUNT_SID = my_ACCOUNT_SID
 AUTH_TOKEN = my_AUTH_TOKEN
 PHONE_FROM = os.environ.get('FROM_PHONE_NUMBER_FOR_SMS', '+17029308792')
@@ -170,6 +170,20 @@ PHONE_FROM = os.environ.get('FROM_PHONE_NUMBER_FOR_SMS', '+17029308792')
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
+
+
+#Caching whith Redis
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
 
 
 LANGUAGE_CODE = 'en-us'

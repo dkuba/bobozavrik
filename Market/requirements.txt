@@ -30,6 +30,7 @@ sorl-thumbnail==12.7.0
 sqlparse==0.4.1
 
 twilio
+django-redis
 
 typing-extensions==3.10.0.0
 tzlocal==2.1

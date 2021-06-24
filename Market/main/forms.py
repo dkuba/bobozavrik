@@ -1,6 +1,6 @@
 from django import forms
-
 from .models import (Picture, Profile, Car,)
+from django.forms.models import inlineformset_factory
 
 class ProfileUpdateViewForm(forms.ModelForm):
     first_name = forms.CharField()
@@ -24,6 +24,6 @@ class PictureForm(forms.ModelForm):
         model = Picture
         fields = ['img']
 
-from django.forms.models import inlineformset_factory
+
 
 CarPicturesFormset = inlineformset_factory(Car, Picture,  fields = ['img',], extra=1)

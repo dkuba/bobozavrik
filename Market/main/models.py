@@ -14,7 +14,6 @@ from django.core.exceptions import ValidationError
 from django.dispatch import receiver
 
 from .tasks_models import send_feedback_email_task
-
 from django.conf import settings 
 from twilio.rest import Client
 import random

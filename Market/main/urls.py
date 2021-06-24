@@ -27,7 +27,7 @@ urlpatterns = [
     path('accounts/profile/<int:pk>/', ProfileUpdateView.as_view(), name='profile-update'), 
     
     path('cars/', CarsList.as_view(), name='cars'),    
-    path('cars/<int:pk>/', cache_page(60*60)(CarDetailView.as_view()), name='car-detail'),
+    path('cars/<int:pk>/', CarDetailView.as_view(), name='car-detail'),
     
     path('services/', ServicesList.as_view(), name='services'),
     path('services/<int:pk>/', ServicesDetailView.as_view(), name='services-detail'),

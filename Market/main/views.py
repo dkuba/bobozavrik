@@ -20,6 +20,9 @@ from django.views.generic import (
     UpdateView,
     CreateView,
 )
+import random
+from django.core.cache import cache
+
 
 class MyRegisterView(CreateView):
     """New User Register Page"""
@@ -38,7 +41,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     fields = ["first_name", "last_name", "birthday", "email", 'img']
     template_name = 'main/profile_update.html'
 
-from django.core.cache import cache
+
 
 class My_class:
     """MixinData class"""
@@ -110,11 +113,32 @@ class CarsList(My_class, ListView ):
     model = Car
     template_name = 'main/cars_list.html'
     
-    
+
+
 class CarDetailView(DetailView):
     """detail view for Car"""
     model = Car
     template_name = 'main/car_detail.html'
+ 
+    """Set API cachr for Car.price, update 60 sec /
+    Set random coefficient for price """
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        random_price = cache.get('object_price')
+        x_car = self.object
+
+        if random_price is None:
+            random_price = random.randint(8, 12)*x_car.price*0.1
+            cache.set('object_price', random_price)
+            cache.touch('object_price', 60)
+
+        context.update({
+            'object':  x_car,
+            'object_price' : random_price,
+        })
+
+
+        return context
 
 
 class CarAddView(PermissionRequiredMixin, My_CarMix, CreateView):

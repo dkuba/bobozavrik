@@ -120,7 +120,7 @@ class CarDetailView(DetailView):
     model = Car
     template_name = 'main/car_detail.html'
  
-    """Set API cachr for Car.price, update 60 sec /
+    """Set API cache for Car.price, update 60 sec /
     Set random coefficient for price """
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

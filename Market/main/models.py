@@ -73,7 +73,6 @@ class Profile(User):
                                     from_=numder_phone,
                                     to=self.phone_number
                                 )
-        print(message.sid)
         sms_log = SMSLog()
         sms_log.sms_numer = sms_numer
         sms_log.message_sid = message.sid

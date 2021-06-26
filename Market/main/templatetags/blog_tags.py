@@ -1,8 +1,6 @@
 from django import template
-
 from django.template.defaultfilters import stringfilter
 
-from django.contrib.auth.models import User
 
 import datetime
 from django.utils.timezone import utc
@@ -20,4 +18,4 @@ def current_time():
 @stringfilter
 def palindrome(string):
     reversed_string = string[::-1]
-    return  reversed_string
+    return reversed_string

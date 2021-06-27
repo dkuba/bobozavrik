@@ -20,7 +20,7 @@ class Category(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, verbose_name='Идентификатор')
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Category: %s' % self.title
 
 
@@ -29,7 +29,7 @@ class Tag(models.Model):
 
     title = models.CharField(max_length=200)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Tag: %s' % self.title
 
 
@@ -88,10 +88,10 @@ class Seller(User):
         verbose_name = "Seller"
         verbose_name_plural = "Sellers"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Seller1: %s' % self.username
 
-    def nmd_of_ads():
+    def nmd_of_ads() -> int:
         """Method for counting Ads for this Seller"""
         ads = Car.objects.count() + Stuff.objects.count() + Services.objects.count()
         return ads
@@ -124,7 +124,7 @@ class Stuff(BaseAd):
 
     is_new = models.BooleanField(default=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Stuff: %s' % self.title
 
     def get_absolute_url(self):
@@ -136,7 +136,7 @@ class TypeFuel(models.Model):
 
     type_fuel = models.CharField(max_length=24, blank=True, null=True, default=None)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'TypeFuel: %s' % self.type_fuel
 
 
@@ -146,7 +146,7 @@ class Car(BaseAd):
     engine_volume = models.DecimalField(max_digits=5, decimal_places=3, default=0)
     type_fuel = models.ForeignKey(TypeFuel, on_delete=models.CASCADE, blank=True, null=True,)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Car: %s' % self.title
 
     def get_absolute_url(self):
@@ -165,7 +165,7 @@ class Services(BaseAd):
 
     duration = models.DateTimeField()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Car: %s' % self.title
 
     def get_absolute_url(self):
@@ -185,7 +185,7 @@ class Subscriber(models.Model):
     email = models.EmailField()
     date = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Subscriber: %s' % self.email
 
 

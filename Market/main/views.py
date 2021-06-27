@@ -8,6 +8,7 @@ from .forms import CarForm, CarPicturesFormset
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.http import HttpRequest, HttpResponse
 from django.views.generic import (
     ListView,
     DetailView,
@@ -89,7 +90,7 @@ class My_CarMix:
 
 
 # my home view
-def home(request):
+def home(request: HttpRequest) -> HttpResponse:
     profile = Profile.objects.get(id=5)
     nmb_ad = Seller.nmd_of_ads()
     turn_on_block = settings.MAINTENANCE_MODE

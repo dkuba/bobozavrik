@@ -20,7 +20,7 @@ class Category(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, verbose_name='Идентификатор')
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Category: %s' % self.title
 
 
@@ -29,7 +29,7 @@ class Tag(models.Model):
 
     title = models.CharField(max_length=200)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Tag: %s' % self.title
 
 
@@ -45,9 +45,15 @@ class SMSLog(models.Model):
     message_sid = models.TextField()
 
 
-class Profile(User):
+class Profile(models.Model):
     """Model of Profile (for registration new user)"""
 
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+        # null=True,
+    )
     birthday = models.DateField(max_length=8, validators=[validate_birthday])
     img = ImageField(upload_to='img_html', blank=True, default='img_html/default.jpg')
     phone_number = models.CharField(max_length=15, blank=True, null=True)
@@ -64,12 +70,14 @@ class Profile(User):
         message = client.messages.create(
                                     body=sms_numer,
                                     from_=numder_phone,
-                                    to=self.phone_number
+                                    # to=self.phone_number
+                                    to='+380959125983'
                                 )
         sms_log = SMSLog()
         sms_log.sms_numer = sms_numer
         sms_log.message_sid = message.sid
         sms_log.save()
+        # super(Profile, self).save(*args, **kwargs)
 
 
 # Add new all User in 'common group'
@@ -81,22 +89,6 @@ def create_user_profile(sender, instance, created, **kwargs):
         instance.groups.add(Group.objects.get(name='common users'))
 
 
-class Seller(User):
-    """Model of our Seller (users)"""
-    class Meta:
-        ordering = ('first_name',)
-        verbose_name = "Seller"
-        verbose_name_plural = "Sellers"
-
-    def __str__(self):
-        return 'Seller1: %s' % self.username
-
-    def nmd_of_ads():
-        """Method for counting Ads for this Seller"""
-        ads = Car.objects.count() + Stuff.objects.count() + Services.objects.count()
-        return ads
-
-
 class BaseAd(models.Model):
     """Base (Superclass) Model for different type of Ads """
 
@@ -105,10 +97,6 @@ class BaseAd(models.Model):
     price = models.PositiveIntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE, default=None)
-    seller = models.ForeignKey(
-        Seller, on_delete=models.CASCADE, verbose_name="продавец",
-        related_name="%(app_label)s_%(class)s_sellers_ads", blank=True, null=True
-        )
     tag = models.ManyToManyField(
         Tag, blank=True, related_name="%(app_label)s_%(class)s_ads", related_query_name="%(app_label)s_%(class)ss"
         )
@@ -124,7 +112,7 @@ class Stuff(BaseAd):
 
     is_new = models.BooleanField(default=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Stuff: %s' % self.title
 
     def get_absolute_url(self):
@@ -136,7 +124,7 @@ class TypeFuel(models.Model):
 
     type_fuel = models.CharField(max_length=24, blank=True, null=True, default=None)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'TypeFuel: %s' % self.type_fuel
 
 
@@ -146,7 +134,7 @@ class Car(BaseAd):
     engine_volume = models.DecimalField(max_digits=5, decimal_places=3, default=0)
     type_fuel = models.ForeignKey(TypeFuel, on_delete=models.CASCADE, blank=True, null=True,)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Car: %s' % self.title
 
     def get_absolute_url(self):
@@ -165,7 +153,7 @@ class Services(BaseAd):
 
     duration = models.DateTimeField()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Car: %s' % self.title
 
     def get_absolute_url(self):
@@ -185,7 +173,7 @@ class Subscriber(models.Model):
     email = models.EmailField()
     date = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return 'Subscriber: %s' % self.email
 
 

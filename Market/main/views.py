@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from .models import Tag, Seller, Profile, Services, Stuff, Car
+from .models import Tag, Profile, Services, Stuff, Car
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
@@ -17,6 +17,7 @@ from django.views.generic import (
 )
 import random
 from django.core.cache import cache
+from django.contrib.auth.models import User
 
 
 class MyRegisterView(CreateView):
@@ -71,9 +72,6 @@ class My_class:
 class My_CarMix:
     """MixinData class for Car (Edit and Create views)"""
     def form_valid(self, form):
-        # self.object = form.save(commit=False)
-        # self.object.seller = self.request.user
-        # self.object.save()
         context = self.get_context_data(form=form)
         car_form = context['car_form']
         picture = context['picture_formset']
@@ -92,9 +90,9 @@ class My_CarMix:
 # my home view
 def home(request: HttpRequest) -> HttpResponse:
     profile = Profile.objects.get(id=5)
-    nmb_ad = Seller.nmd_of_ads()
+    nmb_ad = User.nmd_of_ads()
     turn_on_block = settings.MAINTENANCE_MODE
-    name_seller = Seller.objects.name
+    name_seller = User.objects.name
     return render(request, 'main/index.html', {
     'nmb_ad': nmb_ad,
     'turn_on_block': turn_on_block,

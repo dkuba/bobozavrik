@@ -45,9 +45,15 @@ class SMSLog(models.Model):
     message_sid = models.TextField()
 
 
-class Profile(User):
+class Profile(models.Model):
     """Model of Profile (for registration new user)"""
 
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+        # null=True,
+    )
     birthday = models.DateField(max_length=8, validators=[validate_birthday])
     img = ImageField(upload_to='img_html', blank=True, default='img_html/default.jpg')
     phone_number = models.CharField(max_length=15, blank=True, null=True)
@@ -64,12 +70,14 @@ class Profile(User):
         message = client.messages.create(
                                     body=sms_numer,
                                     from_=numder_phone,
-                                    to=self.phone_number
+                                    # to=self.phone_number
+                                    to='+380959125983'
                                 )
         sms_log = SMSLog()
         sms_log.sms_numer = sms_numer
         sms_log.message_sid = message.sid
         sms_log.save()
+        # super(Profile, self).save(*args, **kwargs)
 
 
 # Add new all User in 'common group'
@@ -81,22 +89,6 @@ def create_user_profile(sender, instance, created, **kwargs):
         instance.groups.add(Group.objects.get(name='common users'))
 
 
-class Seller(User):
-    """Model of our Seller (users)"""
-    class Meta:
-        ordering = ('first_name',)
-        verbose_name = "Seller"
-        verbose_name_plural = "Sellers"
-
-    def __str__(self) -> str:
-        return 'Seller1: %s' % self.username
-
-    def nmd_of_ads() -> int:
-        """Method for counting Ads for this Seller"""
-        ads = Car.objects.count() + Stuff.objects.count() + Services.objects.count()
-        return ads
-
-
 class BaseAd(models.Model):
     """Base (Superclass) Model for different type of Ads """
 
@@ -105,10 +97,6 @@ class BaseAd(models.Model):
     price = models.PositiveIntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE, default=None)
-    seller = models.ForeignKey(
-        Seller, on_delete=models.CASCADE, verbose_name="продавец",
-        related_name="%(app_label)s_%(class)s_sellers_ads", blank=True, null=True
-        )
     tag = models.ManyToManyField(
         Tag, blank=True, related_name="%(app_label)s_%(class)s_ads", related_query_name="%(app_label)s_%(class)ss"
         )

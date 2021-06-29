@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from .my_source import g_email, g_password, my_ACCOUNT_SID, my_AUTH_TOKEN
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,22 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
     'django.contrib.sites',
     'django.contrib.flatpages',
-    
     'ckeditor',
     'ckeditor_uploader',
-    
-    'sorl.thumbnail',#for created thumbnail from pictures
-    
+    'sorl.thumbnail',  # for created thumbnail from pictures
     "django_apscheduler",
-    
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-
     'main',
 ]
 
@@ -144,17 +141,16 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-AUTH_PARAMS = ['access_type'] 
 
-from .my_source  import *
-import os
+AUTH_PARAMS = ['access_type']
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = g_email
-EMAIL_HOST_PASSWORD =  g_password
+EMAIL_HOST_PASSWORD = g_password
 
 SITE_ID = 2
 
@@ -172,7 +168,7 @@ PHONE_FROM = os.environ.get('FROM_PHONE_NUMBER_FOR_SMS', '+17029308792')
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 
-#Caching whith Redis
+# Caching whith Redis
 
 CACHES = {
     "default": {
@@ -183,7 +179,6 @@ CACHES = {
         }
     }
 }
-
 
 
 LANGUAGE_CODE = 'en-us'
@@ -206,7 +201,7 @@ LOGIN_URL = '/accounts/login/'
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
-MEDIA_URL =  '/media/'
+MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static'

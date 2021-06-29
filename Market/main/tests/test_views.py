@@ -8,10 +8,10 @@ class CarListViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        #Create 13 cars for pagination tests
+        # Create 13 cars for pagination tests
         number_of_cars = 13
         for car_num in range(number_of_cars):
-            Car.objects.create(title='Christian %s' % car_num, description = 'Surname %s' % car_num, price = 1)
+            Car.objects.create(title='Christian %s' % car_num, description='Surname %s' % car_num, price=1)
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get('/cars/')
@@ -32,12 +32,12 @@ class CarListViewTest(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertTrue('is_paginated' in resp.context)
         self.assertTrue(resp.context['is_paginated'] == True)
-        self.assertTrue( len(resp.context['object_list']) == 10)
+        self.assertTrue(len(resp.context['object_list']) == 10)
 
     def test_lists_all_authors(self):
-        #Get second page and confirm it has (exactly) remaining 3 items
+        # Get second page and confirm it has (exactly) remaining 3 items
         resp = self.client.get(reverse('cars')+'?page=2')
         self.assertEqual(resp.status_code, 200)
         self.assertTrue('is_paginated' in resp.context)
         self.assertTrue(resp.context['is_paginated'] == True)
-        self.assertTrue( len(resp.context['object_list']) == 3)
+        self.assertTrue(len(resp.context['object_list']) == 3)

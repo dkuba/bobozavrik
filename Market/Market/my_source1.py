@@ -1,5 +1,4 @@
-
-# Gmail 
+# Gmail
 g_password = ''
 g_email = ''
 

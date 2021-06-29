@@ -145,7 +145,7 @@ class Car(BaseAd):
     """Model for Ads with Cars"""
     
     engine_volume = models.DecimalField(max_digits=5, decimal_places=3, default=0)
-    type_fuel = models.ForeignKey(TypeFuel, on_delete=models.CASCADE)
+    type_fuel = models.ForeignKey(TypeFuel, on_delete=models.CASCADE, blank=True, null=True,)
     
     def __str__(self):
         return 'Car: %s' % self.title

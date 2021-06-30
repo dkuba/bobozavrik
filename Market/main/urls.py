@@ -17,7 +17,7 @@ urlpatterns = [
     path('register/', MyRegisterView.as_view(), name='register'),
     path('login/', MyLoginView.as_view(), name='login'),
 
-    path('', TemplateView.as_view(template_name="index_chat.html"), name='home'),
+    path('', TemplateView.as_view(template_name="index.html"), name='home'),
 
     path('accounts/', include('allauth.urls')),
     path('logout', LogoutView.as_view()),

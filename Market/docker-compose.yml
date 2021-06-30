@@ -32,7 +32,6 @@ services:
      - REDIS_HOST=redis
 
 
-
   celery:
     build: .
     command: celery -A Market worker -l INFO

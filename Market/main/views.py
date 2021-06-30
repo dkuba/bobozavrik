@@ -20,6 +20,27 @@ from django.core.cache import cache
 from django.contrib.auth.models import User
 
 
+def chat_1(request):
+    return render(request, 'main/chat_1.html', {})
+
+def room(request, room_name):
+    return render(request, 'main/room.html', {
+        'room_name': room_name
+    })
+
+
+# my home view
+def home(request: HttpRequest, room_name) -> HttpResponse:
+    turn_on_block = settings.MAINTENANCE_MODE
+    name_seller = User.objects.name
+    return render(request, 'index_chat.html', {
+    'room_name': room_name,
+    'turn_on_block': turn_on_block,
+    'name_seller': name_seller,
+
+    })
+
+
 class MyRegisterView(CreateView):
     """New User Register Page"""
 
@@ -85,20 +106,6 @@ class My_CarMix:
             return response
         else:
             return super().form_invalid(form)
-
-
-# my home view
-def home(request: HttpRequest) -> HttpResponse:
-    profile = Profile.objects.get(id=5)
-    nmb_ad = User.nmd_of_ads()
-    turn_on_block = settings.MAINTENANCE_MODE
-    name_seller = User.objects.name
-    return render(request, 'main/index.html', {
-    'nmb_ad': nmb_ad,
-    'turn_on_block': turn_on_block,
-    'name_seller': name_seller,
-    'profile': profile
-    })
 
 
 class CarsList(My_class, ListView):

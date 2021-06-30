@@ -9,9 +9,9 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('socialaccount', '0004_auto_20210628_0830'),
+
         ('admin', '0003_logentry_add_action_flag_choices'),
-        ('account', '0003_auto_20210628_0830'),
+
         ('main', '0021_alter_car_type_fuel'),
     ]
 

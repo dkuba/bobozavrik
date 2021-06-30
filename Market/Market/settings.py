@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    
+    'channels',
+    
     'main',
 ]
 
@@ -179,6 +182,18 @@ CACHES = {
         }
     }
 }
+
+# Channels
+ASGI_APPLICATION = "Market.asgi.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [("redis", 6379)],
+        },
+    },
+}
+
 
 
 LANGUAGE_CODE = 'en-us'

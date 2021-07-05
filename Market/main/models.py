@@ -97,6 +97,7 @@ class BaseAd(models.Model):
     price = models.PositiveIntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE, default=None)
+    publication = models.BooleanField(default=True)
     tag = models.ManyToManyField(
         Tag, blank=True, related_name="%(app_label)s_%(class)s_ads", related_query_name="%(app_label)s_%(class)ss"
         )

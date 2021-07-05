@@ -20,7 +20,7 @@ admin.site.register(FlatPage, FlatPageCustom)
 
 # Ad user-id in admin
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'email', 'username',)
+    list_display = ('id', 'email', 'username', )
     list_display_links = ('id', 'email', 'username',)
 
 
@@ -35,12 +35,44 @@ class CategoryAdmin(admin.ModelAdmin):
         model = Category
 
 
+@admin.register(Car)
+class CarAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'price', 'publication',)
+    list_display_links = ('id', 'title',)
+    list_filter = ("tag",'created_date', )  # add filters for model Car in admin panel
+
+    list_editable = ('publication',)
+    actions = ["publish", "unpublish"]
+
+    # add new actions - publish / unpublish
+    def unpublish(self, request, queryset):
+        """Снять с публикации"""
+        row_update = queryset.update(publication=False)
+        if row_update == 1:
+            message_bit = "1 запись была обновлена"
+        else:
+            message_bit = f"{row_update} записей были обновлены"
+        self.message_user(request, f"{message_bit}")
+
+
+    def publish(self, request, queryset):
+        """Опубликовать"""
+        row_update = queryset.update(publication=True)
+        if row_update == 1:
+            message_bit = "1 запись была обновлена"
+        else:
+            message_bit = f"{row_update} записей были обновлены"
+        self.message_user(request, f"{message_bit}")
+
+    publish.short_description = "Опубликовать"
+    unpublish.short_description = "Снять с публикации"
+
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(AdArchive)
 admin.site.register(Tag)
 admin.site.register(Stuff)
 admin.site.register(TypeFuel)
-admin.site.register(Car)
 admin.site.register(Services)
 admin.site.register(Picture)
 admin.site.register(Profile)

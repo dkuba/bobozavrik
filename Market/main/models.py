@@ -12,6 +12,7 @@ from .tasks_models import send_feedback_email_task
 from django.conf import settings
 from twilio.rest import Client
 import random
+from django.contrib.postgres.fields import ArrayField
 
 
 class Category(models.Model):
@@ -98,10 +99,11 @@ class BaseAd(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE, default=None)
     publication = models.BooleanField(default=True)
-    tag = models.ManyToManyField(
-        Tag, blank=True, related_name="%(app_label)s_%(class)s_ads", related_query_name="%(app_label)s_%(class)ss"
-        )
+
+    tag = ArrayField(models.CharField(max_length=200), blank=True, default = [])
+
     created_date = models.DateTimeField(auto_now_add=True, auto_now=False)
+
     updated_date = models.DateTimeField(auto_now_add=False, auto_now=True)
 
     class Meta:

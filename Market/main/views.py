@@ -57,12 +57,13 @@ class My_class:
         """Add sorted_tag_list"""
         kwargs = super().get_context_data(**kwargs)
         unique_tags = set()
-        tag_list = Tag.objects.all()
         model_list = self.model.objects.all()
-        for tag in tag_list:
-            for obj in model_list:
-                if tag in obj.tag.all():
-                    unique_tags.add(tag)
+
+        for obj in model_list:
+            obj_tag_list = obj.tag
+            for tag in obj_tag_list:
+                unique_tags.add(tag)
+
         kwargs.update({
             'unique_tags': unique_tags,
             'model': self.model,
@@ -75,8 +76,15 @@ class My_class:
         tag = self.request.GET.get('tag')
         if not tag:
             return self.model.objects.all()
-        tag_obj = get_object_or_404(Tag, title=tag)
-        return self.model.objects.filter(tag=tag_obj)
+
+        obj_filter_list = []
+        all_obj = self.model.objects.all()
+        for obj in all_obj:
+            tag_obj_list = obj.tag
+            if tag.lower() in tag_obj_list:
+                obj_filter_list.append(obj)
+        
+        return obj_filter_list
 
 
 class My_CarMix:

@@ -13,6 +13,10 @@ class CarFactory(factory.django.DjangoModelFactory):
 
 
 class Command(BaseCommand):
+    """ 
+    add command for manage.py, generation Car models for db
+    python manage.py add_car --cars (default 3 or your number) 
+    """
     
     def add_arguments(self, parser):
         # number of car

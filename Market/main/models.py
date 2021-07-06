@@ -25,15 +25,6 @@ class Category(models.Model):
         return 'Category: %s' % self.title
 
 
-class Tag(models.Model):
-    """Model for create Tags of Ads"""
-
-    title = models.CharField(max_length=200)
-
-    def __str__(self) -> str:
-        return 'Tag: %s' % self.title
-
-
 # Add validation birthday for Profile
 def validate_birthday(birthday):
     today = now()

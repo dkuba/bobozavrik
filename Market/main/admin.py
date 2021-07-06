@@ -4,7 +4,7 @@ from django.contrib.flatpages.admin import FlatPageAdmin
 from django.db import models
 from ckeditor.widgets import CKEditorWidget
 from django.contrib.auth.models import User
-from .models import (Tag, Stuff, Category, SMSLog, Subscriber,
+from .models import (Stuff, Category, SMSLog, Subscriber,
                     AdArchive, TypeFuel, Car, Services, Profile, Picture)
 
 
@@ -70,7 +70,6 @@ class CarAdmin(admin.ModelAdmin):
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(AdArchive)
-admin.site.register(Tag)
 admin.site.register(Stuff)
 admin.site.register(TypeFuel)
 admin.site.register(Services)

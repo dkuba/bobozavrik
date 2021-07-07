@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
 from .models import Profile, Services, Stuff, Car
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -18,7 +18,20 @@ from django.views.generic import (
 import random
 from django.core.cache import cache
 from django.contrib.auth.models import User
+from django.contrib.postgres.search import SearchVector    
 
+
+# search function for navbar
+def search_view(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        cars = Car.objects.annotate(search=SearchVector('title', 'description'),).filter(search=searched)
+        return render(request, 'main/search.html', {
+            'searched':searched,
+            'cars':cars,
+            }) 
+    else:
+        return render(request, 'main/search.html', {})
 
 # my home view
 def home(request: HttpRequest) -> HttpResponse:

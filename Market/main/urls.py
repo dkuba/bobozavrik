@@ -4,7 +4,7 @@ from .views import (MyRegisterView,
                     CarAddView, CarsList, CarEditView, CarDetailView,
                     ProfileUpdateView,
                     ServicesList, ServicesDetailView,
-                    StuffList, StuffDetailView,)
+                    StuffList, StuffDetailView, search_view)
 from django.contrib.flatpages import views
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LogoutView
@@ -17,6 +17,8 @@ urlpatterns = [
     path('register/', MyRegisterView.as_view(), name='register'),
     path('login/', MyLoginView.as_view(), name='login'),
 
+    path('search/', search_view, name='search'),
+    
     path('', TemplateView.as_view(template_name="index.html"), name='home'),
 
     path('accounts/', include('allauth.urls')),

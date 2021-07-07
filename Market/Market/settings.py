@@ -64,6 +64,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'Market.middleware.SwitchMobileMiddleware',
+
 ]
 
 ROOT_URLCONF = 'Market.urls'

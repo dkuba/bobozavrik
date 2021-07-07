@@ -9,7 +9,12 @@
 <h1>My Google OAuth Project Index_chat</h1>
 {% if user.is_authenticated %}
   <p>Welcome, You are logged in as {{ user.username }}</p>
+    <div>
 
+        {% if mobile %}
+            {{ mobile }}
+        {% endif %}
+    </div>
   <div>
     <textarea id="chat-log" cols="50" rows="10"></textarea><br>
     <input id="chat-message-input" type="text" size="50"><br>

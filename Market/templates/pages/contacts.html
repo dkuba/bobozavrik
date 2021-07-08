@@ -2,6 +2,25 @@
 
 {% block content %}
 
+<script type="application/ld+json">
+    {
+     "@context": "http://schema.org",     //определение словаря Schema.org
+     "@type": "Organization",     //тип представляемых данных
+     "url" : "http://market-djando.com",     //адрес сайта
+     "logo" : "http://market-djando.com/pictures/logo.png",     //адрес логотипа компании
+     "address": {
+      "@type": "my PostalAddress",
+      "addressLocality": "Киев",
+      "postalCode": "08200",
+      "streetAddress": "ул. Киевская, 3-д"
+    },
+     "email": "myemail@gmail.com",
+     "name": "DjangoMarket",
+     "telephone": "+380950000000"
+    }
+    </script>
+
+
 Наши контакты
 
 {% endblock  %}

@@ -1,0 +1,13 @@
+from django.contrib.sitemaps import Sitemap  
+from .models import Car 
+
+
+class CarSitemap(Sitemap):  
+    changefreq = 'weekly'  
+    priority = 0.9  
+
+    def items(self):  
+        return Car.objects.all()  
+
+    def lastmod(self, obj):  
+        return obj.updated_date

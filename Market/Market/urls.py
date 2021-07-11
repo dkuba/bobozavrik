@@ -29,6 +29,7 @@ from rest_framework.schemas import get_schema_view
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
+router.register(r'cars', views.CarViewSet)
 
 sitemaps = {
     'cars': CarSitemap  
@@ -36,8 +37,8 @@ sitemaps = {
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', include('main.urls')),
-    path('', include(router.urls)),
+    path('', include('main.urls')),
+    path('api/', include(router.urls)),
     path('pages/', include('django.contrib.flatpages.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),

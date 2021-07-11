@@ -22,7 +22,7 @@ from django.contrib.postgres.search import SearchVector
 
 from rest_framework import viewsets
 from rest_framework import permissions
-from .serializers import UserSerializer, GroupSerializer  
+from .serializers import *
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -38,8 +38,15 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
-    queryset = Group.objects.all()
+    queryset = Car.objects.all()
     serializer_class = GroupSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    
+
+class CarViewSet(viewsets.ModelViewSet):
+    # API for Car - List, Add, Del, Details view
+    queryset = Car.objects.all()
+    serializer_class = CarSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 

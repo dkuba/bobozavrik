@@ -36,6 +36,8 @@ sitemaps = {
 }
 
 urlpatterns = [
+    path('drf/cars/', views.CarList.as_view()),
+    
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('api/', include(router.urls)),

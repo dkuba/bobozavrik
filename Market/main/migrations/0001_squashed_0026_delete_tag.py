@@ -11,8 +11,6 @@ import sorl.thumbnail.fields
 
 class Migration(migrations.Migration):
 
-    replaces = [('main', '0001_initial'), ('main', '0002_auto_20210602_0601'), ('main', '0003_auto_20210603_0500'), ('main', '0004_auto_20210603_0511'), ('main', '0005_profile'), ('main', '0006_auto_20210606_1658'), ('main', '0007_alter_profile_img'), ('main', '0008_alter_profile_img'), ('main', '0009_alter_profile_img'), ('main', '0010_alter_profile_img'), ('main', '0011_alter_profile_img'), ('main', '0012_auto_20210607_1619'), ('main', '0013_picture_test_field'), ('main', '0014_alter_profile_birthday'), ('main', '0015_auto_20210610_0842'), ('main', '0016_subscriber'), ('main', '0017_auto_20210614_1840'), ('main', '0018_profile_phone_number'), ('main', '0019_smslog'), ('main', '0020_alter_profile_phone_number'), ('main', '0021_alter_car_type_fuel'), ('main', '0022_auto_20210629_0516'), ('main', '0023_auto_20210705_0625'), ('main', '0024_auto_20210706_1334'), ('main', '0025_auto_20210706_1336'), ('main', '0026_delete_tag')]
-
     initial = True
 
     dependencies = [

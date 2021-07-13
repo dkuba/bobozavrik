@@ -36,8 +36,6 @@ sitemaps = {
 }
 
 urlpatterns = [
-    path('drf/cars/', views.CarList.as_view()),
-    
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('api/', include(router.urls)),
@@ -50,6 +48,5 @@ urlpatterns = [
         title='main',
         description='API for the main',
         version='1.0.0',
-        
     ), name='openapi-schema'),    
 ]

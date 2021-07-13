@@ -21,7 +21,7 @@ from django.contrib.auth.models import User, Group
 from django.contrib.postgres.search import SearchVector  
 
 from rest_framework import viewsets
-from rest_framework import permissions
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .serializers import (
     UserSerializer,
     GroupSerializer,
@@ -36,7 +36,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -45,14 +45,17 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class CarViewSet(viewsets.ModelViewSet):
-    # API for Car - List, Add, Del, Details view
+    # API for Car - List, Add, Del, Details view.
+    
     queryset = Car.objects.all()
     serializer_class = CarSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    
+    # if user not Autheficated - you can read only
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class CarList(generics.ListAPIView):

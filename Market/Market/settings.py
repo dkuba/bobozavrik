@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'channels',
     'rest_framework',
+    'rest_framework.authtoken',
 
     'main',
 ]
@@ -90,8 +91,9 @@ TEMPLATES = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 2,
 }
+
 
 WSGI_APPLICATION = 'Market.wsgi.application'
 

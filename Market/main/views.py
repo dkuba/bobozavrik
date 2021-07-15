@@ -21,13 +21,12 @@ from django.contrib.auth.models import User, Group
 from django.contrib.postgres.search import SearchVector  
 
 from rest_framework import viewsets
-from rest_framework import permissions
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .serializers import (
     UserSerializer,
     GroupSerializer,
     CarSerializer,
 )
-from rest_framework import generics
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -36,7 +35,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -45,31 +44,31 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class CarViewSet(viewsets.ModelViewSet):
-    # API for Car - List, Add, Del, Details view
+    # API for Car - List, Add, Del, Details view.
+    
     queryset = Car.objects.all()
     serializer_class = CarSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class CarList(generics.ListAPIView):
-
-    serializer_class = CarSerializer
+    
+    # if user not Autheficated - you can read only
+    permission_classes = [IsAuthenticatedOrReadOnly]
     
     def get_queryset(self):
         """
         Optionally restricts the returned Cars to a given user,
         by filtering against a `title` query parameter in the URL.
 
-        http://127.0.0.1:8000/drf/cars/?title=fdv
+        http://127.0.0.1:8000/api/cars/?title=fdv
         """
-
-        title = self.request.query_params.get('title', None)
-        return Car.objects.filter(title=title)
-
+        queryset = Car.objects.all()
+        title = self.request.query_params.get('title')
+        if title is not None:
+            queryset = Car.objects.filter(title=title)
+        
+        return queryset
 
 
 # search function for navbar

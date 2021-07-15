@@ -5,12 +5,24 @@
 
 {% load socialaccount %}
 <html>
+    <script type="application/ld+json">
+        <!-- разметка контактов JSON-LD -->
+        {
+          "@context": "http://schema.org",
+          "@type": "Service",
+          "name": "Marketplace",
+          "description": "Сайт для покупок и размещения ваших обьявлений",
+          "author": {
+            "@type": "Person",
+            "name": "Vadym Drok"
+          },
+        }
+    </script>
 <body>
 <h1>My Google OAuth Project Index_chat</h1>
 {% if user.is_authenticated %}
   <p>Welcome, You are logged in as {{ user.username }}</p>
     <div>
-
         {% if mobile %}
             {{ mobile }}
         {% endif %}

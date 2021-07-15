@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from .my_source import g_email, g_password, my_ACCOUNT_SID, my_AUTH_TOKEN
 import os
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -98,11 +100,8 @@ REST_FRAMEWORK = {
 WSGI_APPLICATION = 'Market.wsgi.application'
 
 
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-
 sentry_sdk.init(
-    dsn=os.environ.get('SENTRY_SDK_DSN', "https://7f7c0f4d42644dbda90c68f0febaaa21@o914849.ingest.sentry.io/5854337"),
+    dsn="https://7f7c0f4d42644dbda90c68f0febaaa21@o914849.ingest.sentry.io/5854337",
     integrations=[DjangoIntegration()],
 
     # Set traces_sample_rate to 1.0 to capture 100%
@@ -186,7 +185,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = g_email
 EMAIL_HOST_PASSWORD = g_password
 
-SITE_ID = 5
+SITE_ID = 6
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

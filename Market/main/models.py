@@ -1,6 +1,6 @@
 from django.core.mail.message import EmailMultiAlternatives
 from django.db import models
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, AbstractUser
 from django.urls import reverse
 from sorl.thumbnail import ImageField
 from django.template.loader import render_to_string
@@ -33,27 +33,24 @@ def validate_birthday(birthday):
 
 
 class SMSLog(models.Model):
-    sms_numer = models.CharField(max_length=5)
-    message_sid = models.TextField()
+    sms_numer = models.CharField(max_length=6, default='test_sms')
+    message_sid = models.TextField(default='test')
 
 
-class Profile(models.Model):
+class Profile(User):
+
     """Model of Profile (for registration new user)"""
-
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        primary_key=True,
-        # null=True,
-    )
     birthday = models.DateField(max_length=8, validators=[validate_birthday])
     img = ImageField(upload_to='img_html', blank=True, default='img_html/default.jpg')
     phone_number = models.CharField(max_length=15, blank=True, null=True)
+
 
     def get_absolute_url(self):
         return reverse('profile-update', kwargs={'pk': self.pk})
 
     def save(self, *args, **kwargs):
+        # Twilio message
+        super().save(*args, **kwargs)
         account_sid = settings.ACCOUNT_SID
         auth_token = settings.AUTH_TOKEN
         numder_phone = settings.PHONE_FROM
@@ -62,14 +59,12 @@ class Profile(models.Model):
         message = client.messages.create(
                                     body=sms_numer,
                                     from_=numder_phone,
-                                    # to=self.phone_number
-                                    to='+380959125983'
+                                    to=self.phone_number 
                                 )
         sms_log = SMSLog()
         sms_log.sms_numer = sms_numer
         sms_log.message_sid = message.sid
         sms_log.save()
-        # super(Profile, self).save(*args, **kwargs)
 
 
 # Add new all User in 'common group'

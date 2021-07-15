@@ -21,6 +21,14 @@ from main.sitemap import CarSitemap
 
 from django.views.generic.base import TemplateView
 
+from rest_framework import routers
+from main import views
+
+from rest_framework.schemas import get_schema_view
+
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'groups', views.GroupViewSet)
 
 sitemaps = {
     'cars': CarSitemap  
@@ -28,10 +36,17 @@ sitemaps = {
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('main.urls')),
+    # path('', include('main.urls')),
+    path('', include(router.urls)),
     path('pages/', include('django.contrib.flatpages.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
-    path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
-    ),
+    path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('schema', get_schema_view(
+        title='main',
+        description='API for the main',
+        version='1.0.0',
+        
+    ), name='openapi-schema'),    
 ]

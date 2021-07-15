@@ -27,6 +27,7 @@ from .serializers import (
     GroupSerializer,
     CarSerializer,
 )
+from rest_framework import generics
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -45,13 +46,30 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
-    
+
 
 class CarViewSet(viewsets.ModelViewSet):
     # API for Car - List, Add, Del, Details view
     queryset = Car.objects.all()
     serializer_class = CarSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+class CarList(generics.ListAPIView):
+
+    serializer_class = CarSerializer
+    
+    def get_queryset(self):
+        """
+        Optionally restricts the returned Cars to a given user,
+        by filtering against a `title` query parameter in the URL.
+
+        http://127.0.0.1:8000/drf/cars/?title=fdv
+        """
+
+        title = self.request.query_params.get('title', None)
+        return Car.objects.filter(title=title)
+
 
 
 # search function for navbar
